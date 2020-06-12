@@ -1,36 +1,36 @@
 .header {
+  margin: 0;
   height: 10vh;
+  box-sizing: border-box;
   border: 1px solid black;
 }
 
 .header h1 {
+  margin: 0;
   text-align: center;
 }
 
 .nav-left {
+  margin: 0;
   height: 90vh;
+  box-sizing: border-box;
   border: 1px solid black;
 }
 
 .main-container {
+  margin: 0;
   height: 90vh;
-  border: 1px solid black;
 }
 
 .main-display {
   height: 70vh;
+  box-sizing: border-box;
   border: 1px solid black;
 }
 
 .detail-display {
+  margin: 0;
   height: 20vh;
+  box-sizing: border-box;
   border: 1px solid black;
-}
-
-.map-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
 }
