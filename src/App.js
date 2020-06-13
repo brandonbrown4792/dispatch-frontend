@@ -5,6 +5,7 @@ import './App.css';
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
 import AppointmentDetails from './Components/AppointmentDetails'
+import AppointmentContainer from './Components/AppointmentContainer';
 
 class App extends React.Component {
   state = {
@@ -18,6 +19,7 @@ class App extends React.Component {
     nurses: [],
     appointments: [],
     patients: [],
+    mapViewOn: true,
   }
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ' 
@@ -47,6 +49,24 @@ class App extends React.Component {
   //   }));
   // }
 
+  whatToRender() {
+    if (this.state.mapViewOn) {
+      return <ReactMapGL
+        {...this.state.viewport} 
+        mapboxApiAccessToken={this.mapboxToken}
+        mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
+        onViewportChange={this.handleViewportChange} // allows to drag map inside grid
+      >
+      </ReactMapGL>
+    } else {
+      return <AppointmentContainer 
+                toggleMapView={this.toggleMapView}
+             />
+    } 
+  }
+
+  toggleMapView = () => this.setState({ mapViewOn: !this.state.mapViewOn })
+
   render() {
     return (
     <div>
@@ -60,7 +80,10 @@ class App extends React.Component {
           <div className='nav-left'>
             <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
               <List>
-                <UtilitiesContainer filterTypes={this.filterTypes} />
+                <UtilitiesContainer 
+                  filterTypes={this.filterTypes} 
+                  toggleMapView={this.toggleMapView}
+                />
               </List>
             </Paper>
           </div>
@@ -68,15 +91,7 @@ class App extends React.Component {
         <Grid container item xs={10} className='main-container'>
           <Grid item xs={12}>
             <div className='main-display'>
-              {/* figure out how to map over appts and nurses to put them on the map */}
-              <ReactMapGL 
-                {...this.state.viewport} 
-                mapboxApiAccessToken={this.mapboxToken}
-                onViewportChange={this.handleViewportChange} // allows to drag map inside grid
-                mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
-              >
-
-              </ReactMapGL>
+              {this.whatToRender()}
             </div>
           </Grid>
           <Grid item xs={12}>
@@ -84,6 +99,7 @@ class App extends React.Component {
               <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
                 <List>
                   <h3>Appointment Details</h3>
+                  <AppointmentDetails />
                 </List>
               </Paper>
             </div>

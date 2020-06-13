@@ -1,7 +1,6 @@
 import React from 'react'
 
-// fill out appointment data from props once we have backend hooked up
-
+// props should bring in state of selected patient and populate with data
 function AppointmentDetails(props) {
     return <>
            </>

@@ -11,8 +11,11 @@ function UtilitiesContainer(props) {
             <FilterContainer filterTypes={props.filterTypes} />
             <br />
             Buttons:
-            <button>
+            <button onClick={() => props.toggleMapView()}>
                 Toggle map/index view
+            </button>
+            <button>
+                Suggest route
             </button>
         </div>
     )
