@@ -4,6 +4,7 @@ import ReactMapGL from 'react-map-gl';
 import './App.css';
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
+import AppointmentDetails from './Components/AppointmentDetails'
 
 class App extends React.Component {
   state = {
@@ -31,6 +32,20 @@ class App extends React.Component {
       viewport: { ...this.state.viewport, ...viewport }
     })
   }
+
+  // componentDidMount(){
+  //   Promise.all([
+  //     fetch('http://localhost:3000/patients'),
+  //     fetch('http://localhost:3000/appointments'),
+  //     fetch('http://localhost:3000/nurses'),
+  //   ])
+  //   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+  //   .then(([data1, data2, data3]) => this.setState({
+  //       patients: data1, 
+  //       appointments: data2,
+  //       nurses: data3,
+  //   }));
+  // }
 
   render() {
     return (
