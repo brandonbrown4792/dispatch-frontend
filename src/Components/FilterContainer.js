@@ -1,17 +1,14 @@
 import React from 'react'
+import Filter from './Components/Filter'
 
-function filterContainer(props) {
+function FilterContainer(props) {
+    let filterMap = props.options.map(option => <Filter option={option} /> )
     return (
         <div>
-            <ul>Filter</ul>
-            <ul>Filter</ul>
-            <ul>Filter</ul>
-            <ul>Filter</ul>
-            <button>
-                Switch map/index view
-            </button>
+            <h3>Filters:</h3>
+            {filterMap(props)}
         </div>
     )
 }
 
-export default filterContainer
+export default FilterContainer 

@@ -3,7 +3,7 @@ import { Grid, Paper, List } from '@material-ui/core';
 import ReactMapGL from 'react-map-gl';
 import './App.css';
 import MenuAppBar from './Components/MenuAppBar'
-import FilterContainer from './Components/FilterContainer'
+import UtilitiesContainer from './Components/UtilitiesContainer'
 
 function App() {
   const mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ' 
@@ -28,7 +28,7 @@ function App() {
           <div className='nav-left'>
             <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
               <List>
-                <FilterContainer />
+                <UtilitiesContainer />
               </List>
             </Paper>
           </div>
