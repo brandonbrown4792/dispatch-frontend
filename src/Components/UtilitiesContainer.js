@@ -9,6 +9,8 @@ function UtilitiesContainer(props) {
     return (
         <div>
             <FilterContainer filterTypes={props.filterTypes} />
+            <br />
+            Buttons:
             <button>
                 Toggle map/index view
             </button>

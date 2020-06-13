@@ -10,6 +10,9 @@ function FilterContainer(props) {
         <div>
             <h3>Filters:</h3>
             <Filter />
+            <Filter />
+            <Filter />
+            <Filter />
             {/* {filterMap(props)} */}
         </div>
     )
