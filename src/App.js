@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Grid, Paper, List } from '@material-ui/core';
 import ReactMapGL from 'react-map-gl';
 import './App.css';
+import MenuAppBar from './Components/MenuAppBar'
+import FilterContainer from './Components/FilterContainer'
 
 function App() {
-  const mapboxToken = 'pk.eyJ1IjoiaG9vYmllNDc5MiIsImEiOiJja2JiN3duZzcwMXRlMnRvbDA4bTlkMm5vIn0.aOpsoQbBFrcHCgIsqAZEBQ';
+  const mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ' 
 
   const [viewport, setViewport] = useState({
     latitude: 45.4211,
@@ -19,14 +21,14 @@ function App() {
       <Grid container>
         <Grid item xs={12}>
           <div className='header'>
-            <h1>Dispatch</h1>
+            <MenuAppBar />
           </div>
         </Grid>
         <Grid item xs={2}>
           <div className='nav-left'>
             <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
               <List>
-                <h2>Appointments</h2>
+                <FilterContainer />
               </List>
             </Paper>
           </div>
@@ -34,7 +36,12 @@ function App() {
         <Grid container item xs={10} className='main-container'>
           <Grid item xs={12}>
             <div className='main-display'>
-              <ReactMapGL {...viewport} mapboxApiAccessToken={mapboxToken}>
+              <ReactMapGL 
+                {...viewport} 
+                mapboxApiAccessToken={mapboxToken}
+                onViewportChange={viewport => { setViewport(viewport)}}
+                mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
+              >
 
               </ReactMapGL>
             </div>
