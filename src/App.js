@@ -1,22 +1,74 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Paper, List } from '@material-ui/core';
 import ReactMapGL from 'react-map-gl';
 import './App.css';
 import MenuAppBar from './Components/MenuAppBar'
-import FilterContainer from './Components/FilterContainer'
+import UtilitiesContainer from './Components/UtilitiesContainer'
+import AppointmentDetails from './Components/AppointmentDetails'
+import AppointmentContainer from './Components/AppointmentContainer';
 
-function App() {
-  const mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ' 
+class App extends React.Component {
+  state = {
+    viewport: {
+      latitude: 45.4211,
+      longitude: -75.6903,
+      height: '70vh',
+      width: '82vw',
+      zoom: 10
+    },
+    nurses: [],
+    appointments: [],
+    patients: [],
+    mapViewOn: true,
+  }
+  // should we move this into a .env file?
+  mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ' 
 
-  const [viewport, setViewport] = useState({
-    latitude: 45.4211,
-    longitude: -75.6903,
-    height: '70vh',
-    width: '82vw',
-    zoom: 10
-  })
+  // Here we can maintain filter labels and pass them as props. We may want a function that pushes all nurse names into this arry as well as appt types automatically. These filterTypes should be passed as props for mapping in FilterContainer.
+  filterTypes = ['Appt type 1', 'Appt type 2', 'Filter by Date', 'Completed appts', 
+                 'Incomplete appts', 'Show nurses only', 'Show patients only', 
+                 'Filter appts by nurse1', 'Filter appts by nurse2']
 
-  return (
+  handleViewportChange = viewport => {
+    this.setState({
+      viewport: { ...this.state.viewport, ...viewport }
+    })
+  }
+
+  // componentDidMount(){
+  //   Promise.all([
+  //     fetch('http://localhost:3000/patients'),
+  //     fetch('http://localhost:3000/appointments'),
+  //     fetch('http://localhost:3000/nurses'),
+  //   ])
+  //   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+  //   .then(([data1, data2, data3]) => this.setState({
+  //       patients: data1, 
+  //       appointments: data2,
+  //       nurses: data3,
+  //   }));
+  // }
+
+  whatToRender() {
+    if (this.state.mapViewOn) {
+      return <ReactMapGL
+        {...this.state.viewport} 
+        mapboxApiAccessToken={this.mapboxToken}
+        mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
+        onViewportChange={this.handleViewportChange} // allows to drag map inside grid
+      >
+      </ReactMapGL>
+    } else {
+      return <AppointmentContainer 
+                toggleMapView={this.toggleMapView}
+             />
+    } 
+  }
+
+  toggleMapView = () => this.setState({ mapViewOn: !this.state.mapViewOn })
+
+  render() {
+    return (
     <div>
       <Grid container>
         <Grid item xs={12}>
@@ -28,7 +80,10 @@ function App() {
           <div className='nav-left'>
             <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
               <List>
-                <FilterContainer />
+                <UtilitiesContainer 
+                  filterTypes={this.filterTypes} 
+                  toggleMapView={this.toggleMapView}
+                />
               </List>
             </Paper>
           </div>
@@ -36,14 +91,7 @@ function App() {
         <Grid container item xs={10} className='main-container'>
           <Grid item xs={12}>
             <div className='main-display'>
-              <ReactMapGL 
-                {...viewport} 
-                mapboxApiAccessToken={mapboxToken}
-                onViewportChange={viewport => { setViewport(viewport)}}
-                mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
-              >
-
-              </ReactMapGL>
+              {this.whatToRender()}
             </div>
           </Grid>
           <Grid item xs={12}>
@@ -51,6 +99,7 @@ function App() {
               <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
                 <List>
                   <h3>Appointment Details</h3>
+                  <AppointmentDetails />
                 </List>
               </Paper>
             </div>
@@ -58,7 +107,7 @@ function App() {
         </Grid>
       </Grid>
     </div>
-  );
+  )};
 }
 
 export default App;

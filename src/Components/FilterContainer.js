@@ -1,17 +1,21 @@
 import React from 'react'
+import Filter from './Filter'
 
-function filterContainer(props) {
+function FilterContainer(props) {
+    // Map over props.filterTypes to create array of <Filter /> components with labels == filterTypes
+
+    // let filterMap = props.options.map(option => <Filter option={option} /> )
+    // need to assign a unique ID to each filter so we can use it in it's htmlFor label later
     return (
         <div>
-            <ul>Filter</ul>
-            <ul>Filter</ul>
-            <ul>Filter</ul>
-            <ul>Filter</ul>
-            <button>
-                Switch map/index view
-            </button>
+            <h3>Filters:</h3>
+            <Filter />
+            <Filter />
+            <Filter />
+            <Filter />
+            {/* {filterMap(props)} */}
         </div>
     )
 }
 
-export default filterContainer
+export default FilterContainer 
