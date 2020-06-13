@@ -1,16 +1,19 @@
 import React from 'react'
-import FilterContainer from './Components/FilterContainer'
+import FilterContainer from './FilterContainer'
 
 function UtilitiesContainer(props) {
+    // TODO: Map filter options to container.
+    // Options: Appt type, filter by date, completed appts, incomplete appts, 
+    //      show nurses only, show patients only, filter appts by nurse
+
     return (
         <div>
-            <h3>Filters:</h3>
-            <FilterContainer />
+            <FilterContainer filterTypes={props.filterTypes} />
             <button>
-                Switch map/index view
+                Toggle map/index view
             </button>
         </div>
     )
 }
 
-export default utilitiesContainer
+export default UtilitiesContainer

@@ -1,12 +1,16 @@
 import React from 'react'
-import FilterContainer from './FilterContainer'
 
 function Filter(props) {
-    return <input 
-            type="checkbox" 
-            value={props.option}
-            checked={this.state...}
-            onChange={props.function...} />
+    return <>
+                <input 
+                id={props.id}
+                type="checkbox" 
+                value={props}
+                // checked={this.state...}
+                onChange={props}
+                />
+                <label htmlFor={props.id}>Label</label>
+           </>
 }
 
 export default Filter
