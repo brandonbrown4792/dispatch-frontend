@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Grid, Paper, List } from '@material-ui/core';
 import ReactMapGL from 'react-map-gl';
 import './App.css';
@@ -72,7 +73,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <BrowserRouter>
         <Grid container>
           <Grid item xs={12}>
             <div className='header'>
@@ -92,25 +93,32 @@ class App extends React.Component {
               </Paper>
             </div>
           </Grid>
-          <Grid container item xs={10} className='main-container'>
-            <Grid item xs={12}>
-              <div className='main-display'>
-                {this.whatToRender()}
-              </div>
-            </Grid>
-            <Grid item xs={12}>
-              <div className='detail-display'>
-                <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
-                  <List>
-                    <h3>Appointment Details</h3>
-                    <AppointmentDetails />
-                  </List>
-                </Paper>
-              </div>
-            </Grid>
-          </Grid>
+          <Switch>
+            <Route exact path='/'>
+              <Grid container item xs={10} className='main-container'>
+                <Grid item xs={12}>
+                  <div className='main-display'>
+                    {this.whatToRender()}
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className='detail-display'>
+                    <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
+                      <List>
+                        <h3>Appointment Details</h3>
+                        <AppointmentDetails />
+                      </List>
+                    </Paper>
+                  </div>
+                </Grid>
+              </Grid>
+            </Route>
+            <Route exact path='/login'>
+              <LoginForm />
+            </Route>
+          </Switch>
         </Grid>
-      </div>
+      </BrowserRouter>
     )
   };
 }
