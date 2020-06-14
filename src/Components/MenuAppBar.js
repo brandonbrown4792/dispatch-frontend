@@ -30,7 +30,7 @@ export default function MenuAppBar(props) {
             Dispatch
           </Typography>
 
-          <Button color="inherit"><Link to='/login'>Login</Link></Button>
+          <Button color="inherit" onClick={() => window.location.href = '/login'}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
