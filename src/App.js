@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Grid, Paper, List } from '@material-ui/core';
-import ReactMapGL from 'react-map-gl';
 import './App.css';
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
+import MapContainer from './Components/MapContainer'
 import AppointmentDetails from './Components/AppointmentDetails'
 import AppointmentContainer from './Components/AppointmentContainer';
 import LoginForm from './Components/LoginForm'
@@ -12,16 +12,14 @@ import LoginForm from './Components/LoginForm'
 class App extends React.Component {
   state = {
     viewport: {
-      latitude: 45.4211,
-      longitude: -75.6903,
+      latitude: 33.8145,
+      longitude: -84.3539,
       height: '70vh',
       width: '82vw',
-      zoom: 10
+      zoom: 12
     },
-    nurses: [],
-    appointments: [],
-    patients: [],
-    renderedItem: 'map',
+    userData: {},
+    renderedItem: 'map'
   }
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
@@ -37,31 +35,58 @@ class App extends React.Component {
     })
   }
 
-  // componentDidMount(){
-  //   Promise.all([
-  //     fetch('http://localhost:3000/patients'),
-  //     fetch('http://localhost:3000/appointments'),
-  //     fetch('http://localhost:3000/nurses'),
-  //   ])
-  //   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
-  //   .then(([data1, data2, data3]) => this.setState({
-  //       patients: data1, 
-  //       appointments: data2,
-  //       nurses: data3,
-  //   }));
-  // }
+  componentDidMount() {
+    this.getUserData();
 
-  whatToRender() {
+    //   Promise.all([
+    //     fetch('http://localhost:3000/patients'),
+    //     fetch('http://localhost:3000/appointments'),
+    //     fetch('http://localhost:3000/nurses'),
+    //   ])
+    //   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+    //   .then(([data1, data2, data3]) => this.setState({
+    //       patients: data1, 
+    //       appointments: data2,
+    //       nurses: data3,
+    //   }));
+  }
+
+  handleLogin = token => {
+    localStorage.setItem('auth_token', token);
+    this.getUserData();
+  }
+
+  getUserData = () => {
+    const auth_token = localStorage.getItem('auth_token');
+
+    if (!auth_token) {
+      return;
+    }
+
+    const fetchObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Auth-Token': auth_token
+      }
+    }
+
+    fetch('http://localhost:3000/api/v1/get-info', fetchObj)
+      .then(res => res.json())
+      .then(userData => this.setState({ userData: userData }))
+  }
+
+  whatToRender = () => {
     const renderedItem = this.state.renderedItem;
 
     if (renderedItem === 'map') {
-      return <ReactMapGL
-        {...this.state.viewport}
+      return <MapContainer
+        viewport={this.state.viewport}
         mapboxApiAccessToken={this.mapboxToken}
-        mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
-        onViewportChange={this.handleViewportChange} // allows to drag map inside grid
-      >
-      </ReactMapGL>
+        handleViewportChange={this.handleViewportChange} // allows to drag map inside grid
+        userData={this.state.userData}
+      />
+
     } else if (renderedItem === 'table') {
       return <AppointmentContainer />
     } else if (renderedItem === 'login') {
@@ -114,7 +139,7 @@ class App extends React.Component {
               </Grid>
             </Route>
             <Route exact path='/login'>
-              <LoginForm />
+              <LoginForm handleLogin={this.handleLogin} />
             </Route>
           </Switch>
         </Grid>

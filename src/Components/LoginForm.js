@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
       .then(res => res.json())
       .then(loginData => {
         if (loginData.token) {
-          localStorage.setItem('auth_token', loginData.token);
+          this.props.handleLogin(loginData.token)
           this.props.history.push('/');
         }
         else
