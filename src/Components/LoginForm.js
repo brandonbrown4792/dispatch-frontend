@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import { FormControl, TextField, Button } from '@material-ui/core'
 
 class LoginForm extends React.Component {
@@ -34,11 +35,12 @@ class LoginForm extends React.Component {
       .then(loginData => {
         if (loginData.token) {
           localStorage.setItem('auth_token', loginData.token);
+          this.props.history.push('/');
         }
         else
           alert(loginData.message);
       })
-    // .catch(() => alert('Something went wrong'))
+      .catch(() => alert('Something went wrong'))
 
     e.target.reset();
   }
@@ -56,4 +58,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

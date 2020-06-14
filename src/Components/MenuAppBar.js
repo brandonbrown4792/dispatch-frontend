@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -28,7 +29,8 @@ export default function MenuAppBar(props) {
           <Typography variant="h6" className={classes.title}>
             Dispatch
           </Typography>
-          <Button color="inherit" onClick={() => props.updateRenderedItem('login')}>Login</Button>
+
+          <Button color="inherit"><Link to='/login'>Login</Link></Button>
         </Toolbar>
       </AppBar>
     </div>
