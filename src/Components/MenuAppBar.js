@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -26,9 +26,9 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Dispatch 
+            Dispatch
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={() => props.updateRenderedItem('login')}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>

@@ -6,6 +6,7 @@ import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
 import AppointmentDetails from './Components/AppointmentDetails'
 import AppointmentContainer from './Components/AppointmentContainer';
+import LoginForm from './Components/LoginForm'
 
 class App extends React.Component {
   state = {
@@ -19,15 +20,15 @@ class App extends React.Component {
     nurses: [],
     appointments: [],
     patients: [],
-    mapViewOn: true,
+    renderedItem: 'map',
   }
   // should we move this into a .env file?
-  mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ' 
+  mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
 
   // Here we can maintain filter labels and pass them as props. We may want a function that pushes all nurse names into this arry as well as appt types automatically. These filterTypes should be passed as props for mapping in FilterContainer.
-  filterTypes = ['Appt type 1', 'Appt type 2', 'Filter by Date', 'Completed appts', 
-                 'Incomplete appts', 'Show nurses only', 'Show patients only', 
-                 'Filter appts by nurse1', 'Filter appts by nurse2']
+  filterTypes = ['Appt type 1', 'Appt type 2', 'Filter by Date', 'Completed appts',
+    'Incomplete appts', 'Show nurses only', 'Show patients only',
+    'Filter appts by nurse1', 'Filter appts by nurse2']
 
   handleViewportChange = viewport => {
     this.setState({
@@ -50,64 +51,68 @@ class App extends React.Component {
   // }
 
   whatToRender() {
-    if (this.state.mapViewOn) {
+    const renderedItem = this.state.renderedItem;
+
+    if (renderedItem === 'map') {
       return <ReactMapGL
-        {...this.state.viewport} 
+        {...this.state.viewport}
         mapboxApiAccessToken={this.mapboxToken}
         mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
         onViewportChange={this.handleViewportChange} // allows to drag map inside grid
       >
       </ReactMapGL>
-    } else {
-      return <AppointmentContainer 
-                toggleMapView={this.toggleMapView}
-             />
-    } 
+    } else if (renderedItem === 'table') {
+      return <AppointmentContainer />
+    } else if (renderedItem === 'login') {
+      return <LoginForm />
+    }
   }
 
-  toggleMapView = () => this.setState({ mapViewOn: !this.state.mapViewOn })
+  updateRenderedItem = item => this.setState({ renderedItem: item })
 
   render() {
     return (
-    <div>
-      <Grid container>
-        <Grid item xs={12}>
-          <div className='header'>
-            <MenuAppBar />
-          </div>
-        </Grid>
-        <Grid item xs={2}>
-          <div className='nav-left'>
-            <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
-              <List>
-                <UtilitiesContainer 
-                  filterTypes={this.filterTypes} 
-                  toggleMapView={this.toggleMapView}
-                />
-              </List>
-            </Paper>
-          </div>
-        </Grid>
-        <Grid container item xs={10} className='main-container'>
+      <div>
+        <Grid container>
           <Grid item xs={12}>
-            <div className='main-display'>
-              {this.whatToRender()}
+            <div className='header'>
+              <MenuAppBar updateRenderedItem={this.updateRenderedItem} />
             </div>
           </Grid>
-          <Grid item xs={12}>
-            <div className='detail-display'>
-              <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
+          <Grid item xs={2}>
+            <div className='nav-left'>
+              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
                 <List>
-                  <h3>Appointment Details</h3>
-                  <AppointmentDetails />
+                  <UtilitiesContainer
+                    filterTypes={this.filterTypes}
+                    updateRenderedItem={this.updateRenderedItem}
+                    renderedItem={this.state.renderedItem}
+                  />
                 </List>
               </Paper>
             </div>
           </Grid>
+          <Grid container item xs={10} className='main-container'>
+            <Grid item xs={12}>
+              <div className='main-display'>
+                {this.whatToRender()}
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div className='detail-display'>
+                <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
+                  <List>
+                    <h3>Appointment Details</h3>
+                    <AppointmentDetails />
+                  </List>
+                </Paper>
+              </div>
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  )};
+      </div>
+    )
+  };
 }
 
 export default App;
