@@ -41,7 +41,6 @@ const mapPatients = patients => {
 }
 
 const MapContainer = props => {
-  debugger;
   return <ReactMapGL
     {...props.viewport}
     mapboxApiAccessToken={props.mapboxApiAccessToken}
