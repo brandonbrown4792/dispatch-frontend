@@ -1,12 +1,12 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Grid, Paper, List } from '@material-ui/core';
-import './App.css';
+import React from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Grid, Paper, List } from '@material-ui/core'
+import './App.css'
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
 import MapContainer from './Components/MapContainer'
 import AppointmentDetails from './Components/AppointmentDetails'
-import AppointmentContainer from './Components/AppointmentContainer';
+import TableBox from './Components/TableBox'
 import LoginForm from './Components/LoginForm'
 
 class App extends React.Component {
@@ -37,18 +37,6 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getUserData();
-
-    //   Promise.all([
-    //     fetch('http://localhost:3000/patients'),
-    //     fetch('http://localhost:3000/appointments'),
-    //     fetch('http://localhost:3000/nurses'),
-    //   ])
-    //   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
-    //   .then(([data1, data2, data3]) => this.setState({
-    //       patients: data1, 
-    //       appointments: data2,
-    //       nurses: data3,
-    //   }));
   }
 
   handleLogin = token => {
@@ -88,7 +76,7 @@ class App extends React.Component {
       />
 
     } else if (renderedItem === 'table') {
-      return <AppointmentContainer />
+      return <TableBox userData={this.state.userData} />
     } else if (renderedItem === 'login') {
       return <LoginForm />
     }
