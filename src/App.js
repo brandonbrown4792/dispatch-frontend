@@ -95,7 +95,7 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={2}>
             <div className='nav-left'>
-              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
+              <Paper style={{ maxHeight: '90vh', overflow: 'auto'}}>
                 <List>
                   <UtilitiesContainer
                     filterTypes={this.filterTypes}
