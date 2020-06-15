@@ -5,7 +5,7 @@ import '../App.css';
 const mapMarkers = userData => {
   const nurses = mapNurses(userData.nurses) || [];
   const patients = mapPatients(userData.patients) || [];
-  return nurses.concat(patients);
+  return nurses.concat(patients) || null;
 }
 
 const mapNurses = nurses => {
@@ -41,14 +41,14 @@ const mapPatients = patients => {
 }
 
 const MapContainer = props => {
-
+  debugger;
   return <ReactMapGL
     {...props.viewport}
     mapboxApiAccessToken={props.mapboxApiAccessToken}
     mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
     onViewportChange={props.handleViewportChange} // allows to drag map inside grid
   >
-    {props.userData.user_type !== 'Patient' && mapMarkers(props.userData)}
+    {props.userData.user_type !== 'patient' && mapMarkers(props.userData)}
   </ReactMapGL>
 }
 
