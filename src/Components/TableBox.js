@@ -13,7 +13,7 @@ const createTableHeaders = () => {
 }
 
 const nurseTable = nurses => {
-    if (nurses.length > 0) {
+    if (nurses && nurses.length > 0) {
         return (
             <>
                 <h3>Nurse Information:</h3>
@@ -38,7 +38,7 @@ const nurseTable = nurses => {
 }
 
 const patientTable = patients => {
-    if (patients.length > 0) {
+    if (patients && patients.length > 0) {
         return (
             <>
                 <h3>Patient Information:</h3>
@@ -73,4 +73,4 @@ const TableBox = props => {
     )
 }
 
-export default TableBox
+export default TableBox;
