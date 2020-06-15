@@ -1,72 +1,76 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 
-const mapTable = userData => {
-    const nurses = nurseTable(userData.nurses) || [];
-    const patients = patientTable(userData.patients) || [];
-    debugger
-    return <TableContainer>{nurses.concat(patients) || null}</TableContainer>;
-}
-
-const createTableHeaders = (personObj) => {
-    let headerAry = Object.keys(personObj)
+const createTableHeaders = () => {
     return (
         <TableRow>
-            {headerAry.map(header => <TableCell>header</TableCell>)}
+            <TableCell>ID</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Address</TableCell>
         </TableRow>
     )
 }
 
 const nurseTable = nurses => {
     if (nurses.length > 0) {
-        return <Table size="small" aria-label="a dense table">
-            <TableHead>
-                {createTableHeaders(nurses[0])}
-            </TableHead>
-            <TableBody>
-                {nurses.map((nurse) => (
-                    <TableRow key={nurse.name}>
-                        <TableCell component="th" scope="row">
-                            {nurse.name}
-                        </TableCell>
-                        <TableCell align="right">{nurse.email}</TableCell>
-                        <TableCell align="right">{nurse.address}</TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>I
-        </Table>
+        return (
+            <>
+                <h3>Nurse Information:</h3>
+                <Table size="small" aria-label="a dense table">
+                    <TableHead>
+                        {createTableHeaders(nurses[0])}
+                    </TableHead>
+                    <TableBody>
+                        {nurses.map((nurse) => (
+                            <TableRow key={nurse.id}>
+                                <TableCell component="th" scope="row">{nurse.id}</TableCell>
+                                <TableCell >{nurse.name}</TableCell>
+                                <TableCell >{nurse.email}</TableCell>
+                                <TableCell >{nurse.address}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>I
+                </Table>
+           </>
+        )
     }
 }
 
 const patientTable = patients => {
     if (patients.length > 0) {
-        return <Table size="small" aria-label="a dense table">
-            <TableHead>
-                {createTableHeaders(patients[0])}
-            </TableHead>
-            <TableBody>
-                {patients.map((patient) => (
-                    <TableRow key={patient.name}>
-                        <TableCell component="th" scope="row">
-                            {patient.name}
-                        </TableCell>
-                        <TableCell align="right">{patient.email}</TableCell>
-                        <TableCell align="right">{patient.address}</TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+        return (
+            <>
+                <h3>Patient Information:</h3>
+                <Table size="small" aria-label="a dense table">
+                    <TableHead>
+                        {createTableHeaders(patients[0])}
+                    </TableHead>
+                    <TableBody>
+                        {patients.map((patient) => (
+                            <TableRow key={patient.id}>
+                                <TableCell component="th" scope="row">{patient.id}</TableCell>
+                                <TableCell >{patient.name}</TableCell>
+                                <TableCell >{patient.email}</TableCell>
+                                <TableCell >{patient.address}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </>
+        )
     }
 }
 
-const TableBox =(props)=> {
-    // debugger;
-    return props.userData.user_type !== 'patient' && mapTable(props.userData)
+const TableBox = props => {
+    return (
+        <Paper style={{ maxHeight: '70vh', overflow: 'auto' }}>
+            <TableContainer>
+                {nurseTable(props.userData.nurses)}
+                {patientTable(props.userData.patients)}
+            </TableContainer>
+        </Paper>
+    )
 }
 
 export default TableBox
