@@ -8,6 +8,7 @@ import MapContainer from './Components/MapContainer'
 import AppointmentDetails from './Components/AppointmentDetails'
 import TableBox from './Components/TableBox'
 import LoginForm from './Components/LoginForm'
+import AppointmentForm from './Components/AppointmentForm'
 
 class App extends React.Component {
   state = {
@@ -79,10 +80,44 @@ class App extends React.Component {
       return <TableBox userData={this.state.userData} />
     } else if (renderedItem === 'login') {
       return <LoginForm />
+    } else if (renderedItem === 'apptForm') {
+      return <AppointmentForm 
+                userData={this.state.userData}
+                updateRenderedItem={this.updateRenderedItem}
+                addAppointment={this.addAppointment} />
     }
   }
 
   updateRenderedItem = item => this.setState({ renderedItem: item })
+
+  addAppointment = (appt) => {
+    const auth_token = localStorage.getItem('auth_token');
+
+    if (!auth_token) {
+      return;
+    }
+
+    const fetchObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Auth-Token': auth_token
+      },
+      body: JSON.stringify({
+        patient_id: appt.patient_id,
+        nurse_id: appt.nurse_id, 
+        address: appt.address, 
+        start_time: appt.start_time, 
+        length: appt.length,
+        reason: appt.reason, 
+        notes: appt.notes
+      })
+    }
+
+    fetch('http://localhost:3000/api/v1/appointments', fetchObj)
+      .then(res => res.json())
+      .then(appt => console.log(appt))
+  }
 
   render() {
     return (
