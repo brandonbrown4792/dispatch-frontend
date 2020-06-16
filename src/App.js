@@ -1,7 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Grid, Paper, List } from '@material-ui/core'
+import { Widget } from 'react-chat-widget'
 import './App.css'
+import 'react-chat-widget/lib/styles.css';
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
 import MapContainer from './Components/MapContainer'
@@ -35,7 +37,9 @@ class App extends React.Component {
     popupState: null,
     filteredUserData: {
       appointments: []
-    }
+    },
+    showMessages: false,
+    messages: []
   }
 
   // should we move this into a .env file?
@@ -104,7 +108,8 @@ class App extends React.Component {
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer
         appointments={this.state.selectedAppointments}
-        updateRenderedItem={this.updateRenderedItem} />
+        updateRenderedItem={this.updateRenderedItem}
+        userType={this.state.userData.user_type} />
     }
   }
 
@@ -236,6 +241,7 @@ class App extends React.Component {
             </Route>
           </Switch>
         </Grid>
+        {this.state.showMessages && <Widget />}
       </BrowserRouter>
     )
   };

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid } from '@material-ui/core'
+import { Card, CardContent, Typography, Grid, Button } from '@material-ui/core'
 
-const getAppointmentData = appointment => {
+const getAppointmentData = (appointment) => {
   return <div className="card-container">
     <br />
     <Card style={{ width: '50vw' }} variant="outlined">
@@ -45,7 +45,8 @@ const getAppointmentData = appointment => {
         </React.Fragment>}
         <Typography variant="h6" component="h6">
           Status: {appointment.completed ? 'Complete' : 'Incomplete'}
-        </Typography>
+        </Typography><br />
+        {getMessageButtons(appointment.userType)}
       </CardContent>
     </Card>
     <br />
@@ -64,6 +65,23 @@ const getAppointmentTime = dateInput => {
 
 const mapNotes = notes => {
   return notes.map(note => <li key={note.content}>{note.content}</li>)
+}
+
+const getMessageButtons = userType => {
+  switch (userType) {
+    case "patient":
+      return <Button variant="contained">Message Nurse</Button>;
+    case "nurse":
+      return <Button variant="contained">Message Patient</Button>;
+    case "dispatcher":
+      return <React.Fragment>
+        <span>
+          <Button variant="contained">Message Patient</Button> <Button variant="contained">Message Nurse</Button>
+        </span>
+      </React.Fragment>
+    default:
+      return;
+  }
 }
 
 const Appointment = props => {
