@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Grid, Paper, List } from '@material-ui/core'
-import { Widget } from 'react-chat-widget'
+import { Widget, addResponseMessage, addUserMessage, deleteMessages, markAllAsRead, toggleWidget } from 'react-chat-widget'
 import './App.css'
 import 'react-chat-widget/lib/styles.css';
 import MenuAppBar from './Components/MenuAppBar'
@@ -39,7 +39,8 @@ class App extends React.Component {
       appointments: []
     },
     showMessages: false,
-    messages: []
+    messages: [],
+    chatPerson: ''
   }
 
   // should we move this into a .env file?
@@ -103,13 +104,14 @@ class App extends React.Component {
       return <AppointmentForm
         userData={this.state.userData}
         updateRenderedItem={this.updateRenderedItem}
-        addAppointment={this.addAppointment} 
-        selectedAppointments={this.selectedAppointments}/>
+        addAppointment={this.addAppointment}
+        selectedAppointments={this.selectedAppointments} />
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer
         appointments={this.state.selectedAppointments}
         updateRenderedItem={this.updateRenderedItem}
-        userType={this.state.userData.user_type} />
+        userType={this.state.userData.user_type}
+        getMessages={this.getMessages} />
     }
   }
 
@@ -206,6 +208,61 @@ class App extends React.Component {
 
   onlyUnique = (value, index, self) => self.indexOf(value) === index;
 
+  getMessages = id => {
+    this.fetchMessages(id)
+    this.setState({ chatPerson: id })
+  }
+
+  fetchMessages = id => {
+    const fetchObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Auth-Token': localStorage.getItem('auth_token')
+      },
+      body: JSON.stringify({ message: { userId: id } })
+    }
+
+    fetch('http://localhost:3000/api/v1/get-messages', fetchObj)
+      .then(res => res.json())
+      .then(messages => this.writeMessages(messages))
+  }
+
+  writeMessages = messages => {
+    deleteMessages()
+    messages.forEach(message => {
+      if (message.sender === 'self') {
+        addUserMessage(message.content)
+      } else {
+        addResponseMessage(message.content)
+      }
+    })
+    this.setState({ showMessages: true })
+    markAllAsRead()
+    toggleWidget()
+  }
+
+  handleNewUserMessage = message => {
+    const fetchObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Auth-Token': localStorage.getItem('auth_token')
+      },
+      body: JSON.stringify({
+        message: {
+          content: message,
+          userId: this.state.chatPerson
+        }
+      })
+    }
+
+    fetch('http://localhost:3000/api/v1/messages', fetchObj)
+      .then(res => res.json())
+      .then(message => console.log(message.content))
+      .catch(error => alert(error.msg))
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -241,7 +298,7 @@ class App extends React.Component {
             </Route>
           </Switch>
         </Grid>
-        {this.state.showMessages && <Widget />}
+        {this.state.showMessages && <Widget handleNewUserMessage={this.handleNewUserMessage} />}
       </BrowserRouter>
     )
   };
