@@ -7,6 +7,7 @@ html {
   height: 10vh;
   box-sizing: border-box;
   border: 1px solid black;
+  padding:'0px,0px,0px,0px'
 }
 
 .header h1 {
@@ -16,26 +17,14 @@ html {
 
 .nav-left {
   margin: 0;
-  height: 90vh;
+  height: 94.5vh;
   box-sizing: border-box;
   border: 1px solid black;
-}
-
-.main-container {
-  margin: 0;
-  height: 90vh;
 }
 
 .main-display {
-  height: 70vh;
-  flex-grow: 1;
-  box-sizing: border-box;
-  border: 1px solid black;
-}
-
-.detail-display {
-  margin: 0;
-  height: 20vh;
+  height: 94.5vh;
+  /* flex-grow: 1; */
   box-sizing: border-box;
   border: 1px solid black;
 }
@@ -133,8 +122,4 @@ thead th, tfoot th, tfoot td {
 .marker-btn img {
   width: 50px;
   height: 50px;
-}
-
-.form {
-  display: block;
 }

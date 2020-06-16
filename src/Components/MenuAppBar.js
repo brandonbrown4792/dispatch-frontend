@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  body: {
+    margin: 0
+  } 
 }));
 
 export default function MenuAppBar(props) {
