@@ -46,7 +46,7 @@ const getAppointmentData = (appointment) => {
         <Typography variant="h6" component="h6">
           Status: {appointment.completed ? 'Complete' : 'Incomplete'}
         </Typography><br />
-        {getMessageButtons(appointment.userType)}
+        {getMessageButtons(appointment.userType, appointment.nurseId, appointment.patientId, appointment.getMessages)}
       </CardContent>
     </Card>
     <br />
@@ -67,16 +67,16 @@ const mapNotes = notes => {
   return notes.map(note => <li key={note.content}>{note.content}</li>)
 }
 
-const getMessageButtons = userType => {
+const getMessageButtons = (userType, nurseId, patientId, getMessages) => {
   switch (userType) {
     case "patient":
-      return <Button variant="contained">Message Nurse</Button>;
+      return <Button variant="contained" onClick={() => getMessages(nurseId)}>Message Nurse</Button>;
     case "nurse":
-      return <Button variant="contained">Message Patient</Button>;
+      return <Button variant="contained" onClick={() => getMessages(patientId)}>Message Patient</Button>;
     case "dispatcher":
       return <React.Fragment>
         <span>
-          <Button variant="contained">Message Patient</Button> <Button variant="contained">Message Nurse</Button>
+          <Button variant="contained" onClick={() => getMessages(patientId)}>Message Patient</Button> <Button variant="contained" onClick={() => getMessages(nurseId)}>Message Nurse</Button>
         </span>
       </React.Fragment>
     default:
