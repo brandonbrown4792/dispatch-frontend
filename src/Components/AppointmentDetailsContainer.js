@@ -5,6 +5,7 @@ const mapAppointments = appointments => {
   return appointments.map((appointment, i) => <Appointment
     key={i}
     address={appointment.address}
+    completed={appointment.completed}
     length={appointment.length}
     notes={appointment.notes}
     nurse={appointment.nurse.name}
