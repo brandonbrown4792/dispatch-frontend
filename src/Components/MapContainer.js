@@ -2,13 +2,19 @@ import React from 'react'
 import ReactMapGL, { Marker } from 'react-map-gl';
 import '../App.css';
 
-const mapMarkers = (userData, setSelectedAppointments) => {
-  const nurses = mapNurses(userData.nurses, setSelectedAppointments) || [];
-  const patients = mapPatients(userData.patients, setSelectedAppointments) || [];
+const mapMarkers = (userData, setSelectedAppointments, updateRenderedItem) => {
+  const nurses = mapNurses(userData.nurses, setSelectedAppointments, updateRenderedItem) || [];
+  const patients = mapPatients(userData.patients, setSelectedAppointments, updateRenderedItem) || [];
   return nurses.concat(patients) || null;
 }
 
-const mapNurses = (nurses, setSelectedAppointments) => {
+  const handleClick = (user, setSelectedAppointments, updateRenderedItem) => {
+    // debugger
+    updateRenderedItem('apptDetails')
+    setSelectedAppointments(user)
+}
+
+const mapNurses = (nurses, setSelectedAppointments, updateRenderedItem) => {
   if (nurses) {
     return nurses.map(nurse => {
       return <Marker
@@ -16,7 +22,7 @@ const mapNurses = (nurses, setSelectedAppointments) => {
         latitude={nurse.latitude}
         longitude={nurse.longitude}
       >
-        <button className='marker-btn' onClick={() => setSelectedAppointments(nurse.id)}>
+        <button className='marker-btn' onClick={() => handleClick(nurse.id, setSelectedAppointments, updateRenderedItem)}>
           <img src='nurse-pin.png' alt='nurse-pin' />
         </button>
       </Marker>
@@ -24,7 +30,7 @@ const mapNurses = (nurses, setSelectedAppointments) => {
   }
 }
 
-const mapPatients = (patients, setSelectedAppointments) => {
+const mapPatients = (patients, setSelectedAppointments, updateRenderedItem) => {
   if (patients) {
     return patients.map(patient => {
       return <Marker
@@ -32,7 +38,7 @@ const mapPatients = (patients, setSelectedAppointments) => {
         latitude={patient.latitude}
         longitude={patient.longitude}
       >
-        <button className='marker-btn' onClick={() => setSelectedAppointments(patient.id)}>
+        <button className='marker-btn' onClick={() => handleClick(patient.id, setSelectedAppointments, updateRenderedItem)}>
           <img src='patient-pin.png' alt='patient-pin' />
         </button>
       </Marker>
@@ -47,7 +53,7 @@ const MapContainer = props => {
     mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
     onViewportChange={props.handleViewportChange} // allows to drag map inside grid
   >
-    {props.userData.user_type !== 'patient' && mapMarkers(props.userData, props.setSelectedAppointments)}
+    {props.userData.user_type !== 'patient' && mapMarkers(props.userData, props.setSelectedAppointments, props.updateRenderedItem)}
   </ReactMapGL>
 }
 

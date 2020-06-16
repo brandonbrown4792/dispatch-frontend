@@ -15,11 +15,11 @@ class App extends React.Component {
     viewport: {
       latitude: 33.8145,
       longitude: -84.3539,
-      height: '70vh',
-      width: '82vw',
+      height: '94vh',
+      width: '83vw',
       zoom: 12
     },
-    userData: {},
+    userData: {}, 
     selectedAppointments: [],
     renderedItem: 'map',
     filterParams: {
@@ -78,6 +78,7 @@ class App extends React.Component {
         handleViewportChange={this.handleViewportChange} // allows to drag map inside grid
         userData={this.state.filteredUserData}
         setSelectedAppointments={this.setSelectedAppointments}
+        updateRenderedItem={this.updateRenderedItem}
       />
 
     } else if (renderedItem === 'table') {
@@ -89,6 +90,10 @@ class App extends React.Component {
         userData={this.state.userData}
         updateRenderedItem={this.updateRenderedItem}
         addAppointment={this.addAppointment} />
+    } else if (renderedItem === 'apptDetails') {
+      return <AppointmentDetailsContainer 
+          appointments={this.state.selectedAppointments} 
+          updateRenderedItem={this.updateRenderedItem} />
     }
   }
 
@@ -166,15 +171,13 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Grid container>
-          <Grid item xs={12}>
-            <div className='header'>
-              <MenuAppBar updateRenderedItem={this.updateRenderedItem} />
-            </div>
-          </Grid>
+        <MenuAppBar updateRenderedItem={this.updateRenderedItem} />
+        <Grid container >
+          {/* <Grid item xs={12} className='header'> */}
+          {/* </Grid> */}
           <Grid item xs={2}>
             <div className='nav-left'>
-              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
+              <Paper style={{ maxHeight: '100vh', overflow: 'auto' }}>
                 <List>
                   <UtilitiesContainer
                     filterParams={this.state.filterParams}
@@ -189,19 +192,10 @@ class App extends React.Component {
           </Grid>
           <Switch>
             <Route exact path='/'>
-              <Grid container item xs={10} className='main-container'>
-                <Grid item xs={12}>
-                  <div className='main-display'>
+              <Grid container item xs={10} className='main-display'>
+                  <Grid item xs={12}>
                     {this.whatToRender()}
-                  </div>
-                </Grid>
-                <Grid item xs={12}>
-                  <div className='detail-display'>
-                    <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
-                      {this.state.selectedAppointments.length > 0 && <AppointmentDetailsContainer appointments={this.state.selectedAppointments} />}
-                    </Paper>
-                  </div>
-                </Grid>
+                  </Grid>
               </Grid>
             </Route>
             <Route exact path='/login'>
