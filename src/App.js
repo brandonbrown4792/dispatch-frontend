@@ -113,10 +113,10 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         patient_id: appt.patient_id,
-        nurse_id: appt.nurse_id, 
-        start_time: appt.start_time, 
+        nurse_id: appt.nurse_id,
+        start_time: appt.start_time,
         length: appt.length,
-        reason: appt.reason, 
+        reason: appt.reason,
         notes: appt.notes
       })
     }
@@ -124,7 +124,7 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/appointments', fetchObj)
       .then(res => res.json())
       .then(appt => this.setState({
-        userData: {...this.state.userData, appointments: [...this.state.userData.appointments, appt]}
+        userData: { ...this.state.userData, appointments: [...this.state.userData.appointments, appt] }
       }))
   }
 
@@ -138,8 +138,19 @@ class App extends React.Component {
     if (filterParams.patient) {
       filteredUserData.patients = filteredUserData.patients.filter(patient => patient.id === parseInt(filterParams.patient))
     }
+
+    if (filterParams.appointmentReason) {
+      const appointments = filteredUserData.appointments.filter(appointment => appointment.reason === filterParams.appointmentReason)
+      const patient_ids = appointments.map(appointment => appointment.patient_id).filter(this.onlyUnique)
+      const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
+      filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))
+      filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+    }
+
     this.setState({ filteredUserData: filteredUserData, filterParams: filterParams });
   }
+
+  onlyUnique = (value, index, self) => self.indexOf(value) === index
 
   render() {
     return (
