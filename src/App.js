@@ -15,22 +15,29 @@ class App extends React.Component {
     viewport: {
       latitude: 33.8145,
       longitude: -84.3539,
-      height: '94vh',
+      height: '89.5vh',
       width: '83vw',
       zoom: 12
     },
-    userData: {}, 
+    userData: {},
     selectedAppointments: [],
     renderedItem: 'map',
     filterParams: {
       nurse: '',
       patient: '',
       appointmentReason: '',
-      appointmentStatus: ''
+      appointmentStatus: '',
+      date: {
+        from: '',
+        to: ''
+      }
     },
-    filteredUserData: {},
     popupState: null,
+    filteredUserData: {
+      appointments: []
+    }
   }
+
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
 
@@ -95,9 +102,9 @@ class App extends React.Component {
         addAppointment={this.addAppointment} 
         selectedAppointments={this.selectedAppointments}/>
     } else if (renderedItem === 'apptDetails') {
-      return <AppointmentDetailsContainer 
-          appointments={this.state.selectedAppointments} 
-          updateRenderedItem={this.updateRenderedItem} />
+      return <AppointmentDetailsContainer
+        appointments={this.state.selectedAppointments}
+        updateRenderedItem={this.updateRenderedItem} />
     }
   }
 
@@ -108,8 +115,12 @@ class App extends React.Component {
   }
 
   setSelectedAppointments = id => {
+    let filteredAppointments = this.state.filteredUserData.appointments;
+    const selectedAppointments = this.state.userData.appointments.filter(appointment =>
+      (appointment.patient_id === id || appointment.nurse_id === id) && filteredAppointments.includes(appointment)
+    );
     this.setState({
-      selectedAppointments: this.state.userData.appointments.filter(appointment => appointment.patient_id === id || appointment.nurse_id === id)
+      selectedAppointments: selectedAppointments
     })
   }
 
@@ -156,25 +167,39 @@ class App extends React.Component {
 
     if (filterParams.appointmentReason) {
       const appointments = filteredUserData.appointments.filter(appointment => appointment.reason === filterParams.appointmentReason)
-      const patient_ids = appointments.map(appointment => appointment.patient_id).filter(this.onlyUnique)
-      const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
-      filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))
-      filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+      this.filterUsersFromAppointments(appointments, filteredUserData)
     }
 
     if (filterParams.appointmentStatus) {
       const status = filterParams.appointmentStatus === 'complete' ? true : false;
       const appointments = filteredUserData.appointments.filter(appointment => appointment.completed === status)
-      const patient_ids = appointments.map(appointment => appointment.patient_id).filter(this.onlyUnique)
-      const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
-      filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))
-      filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+      this.filterUsersFromAppointments(appointments, filteredUserData)
+    }
+
+    if (filterParams.date.from) {
+      const appointments = filteredUserData.appointments.filter(appointment => Date.parse(appointment.start_time) > Date.parse(filterParams.date.from));
+      this.filterUsersFromAppointments(appointments, filteredUserData)
+    }
+
+    if (filterParams.date.to) {
+      const appointments = filteredUserData.appointments.filter(appointment => Date.parse(appointment.start_time) < Date.parse(filterParams.date.to));
+      this.filterUsersFromAppointments(appointments, filteredUserData)
     }
 
     this.setState({ filteredUserData: filteredUserData, filterParams: filterParams });
+
+    return filteredUserData;
   }
 
-  onlyUnique = (value, index, self) => self.indexOf(value) === index
+  filterUsersFromAppointments = (appointments, filteredUserData) => {
+    const patient_ids = appointments.map(appointment => appointment.patient_id).filter(this.onlyUnique)
+    const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
+    filteredUserData.appointments = appointments;
+    filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))
+    filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+  }
+
+  onlyUnique = (value, index, self) => self.indexOf(value) === index;
 
   render() {
     return (
@@ -185,7 +210,7 @@ class App extends React.Component {
           {/* </Grid> */}
           <Grid item xs={2}>
             <div className='nav-left'>
-              <Paper style={{ maxHeight: '100vh', overflow: 'auto' }}>
+              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
                 <List>
                   <UtilitiesContainer
                     filterParams={this.state.filterParams}
@@ -201,9 +226,9 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/'>
               <Grid container item xs={10} className='main-display'>
-                  <Grid item xs={12}>
-                    {this.whatToRender()}
-                  </Grid>
+                <Paper style={{ maxHeight: '90vh', overflow: 'auto', width: '90vw' }}>
+                  {this.whatToRender()}
+                </Paper>
               </Grid>
             </Route>
             <Route exact path='/login'>

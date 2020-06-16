@@ -1,4 +1,5 @@
 import React from 'react'
+import { TextField } from '@material-ui/core'
 // import Filter from './Filter'
 
 const updateFilteredNurse = (e, filterParams, updateFilteredUserData) => {
@@ -15,6 +16,14 @@ const updateFilteredReason = (e, filterParams, updateFilteredUserData) => {
 
 const updateFilteredStatus = (e, filterParams, updateFilteredUserData) => {
     updateFilteredUserData({ ...filterParams, appointmentStatus: e.target.value })
+}
+
+const updateFilteredFromDate = (e, filterParams, updateFilteredUserData) => {
+    updateFilteredUserData({ ...filterParams, date: { ...filterParams.date, from: e.target.value } })
+}
+
+const updateFilteredToDate = (e, filterParams, updateFilteredUserData) => {
+    updateFilteredUserData({ ...filterParams, date: { ...filterParams.date, to: e.target.value } })
 }
 
 const mapNursesOptions = nurses => {
@@ -38,6 +47,20 @@ const mapReasonOptions = appointments => {
 
 const onlyUnique = (value, index, self) => self.indexOf(value) === index
 
+const dateField = (label, method, filterParams, updateFilteredUserData) => {
+    return <TextField
+        key={label}
+        id="datetime-local"
+        label={label}
+        name="start_time"
+        type="date"
+        onChange={e => method(e, filterParams, updateFilteredUserData)}
+        InputLabelProps={{
+            shrink: true,
+        }}
+    />
+}
+
 function FilterContainer(props) {
     return (
         <div>
@@ -46,23 +69,26 @@ function FilterContainer(props) {
             <select onChange={e => updateFilteredNurse(e, props.filterParams, props.updateFilteredUserData)}>
                 <option value=''>All Nurses</option>
                 {mapNursesOptions(props.userData.nurses)}
-            </select>
+            </select><br /><br />
             <label>Patient</label><br />
             <select onChange={e => updateFilteredPatient(e, props.filterParams, props.updateFilteredUserData)}>
                 <option value=''>All Patients</option>
                 {mapPatientsOptions(props.userData.patients)}
-            </select>
+            </select><br /><br />
             <label>Appointment Reason</label><br />
             <select onChange={e => updateFilteredReason(e, props.filterParams, props.updateFilteredUserData)}>
                 <option value=''>All Reasons</option>
                 {mapReasonOptions(props.userData.appointments)}
-            </select>
-            <label>Appointment Status</label>
+            </select><br /><br />
+            <label>Appointment Status</label><br />
             <select onChange={e => updateFilteredStatus(e, props.filterParams, props.updateFilteredUserData)}>
                 <option value=''>All Statuses</option>
                 <option value='complete'>Complete</option>
                 <option value='incomplete'>Incomplete</option>
-            </select>
+            </select><br /><br />
+            <label>Date</label><br />
+            {dateField('From', updateFilteredFromDate, props.filterParams, props.updateFilteredUserData)}
+            {dateField('To', updateFilteredToDate, props.filterParams, props.updateFilteredUserData)}<br /><br />
         </div>
     )
 }
