@@ -288,7 +288,7 @@ class App extends React.Component {
           {/* </Grid> */}
           <Grid item xs={2}>
             <div className='nav-left'>
-              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
+              <Paper style={{ height: '89.7vh', overflow: 'auto' }}>
                 <List>
                   <UtilitiesContainer
                     filterParams={this.state.filterParams}
