@@ -32,10 +32,12 @@ class App extends React.Component {
         to: ''
       }
     },
+    popupState: null,
     filteredUserData: {
       appointments: []
     }
   }
+
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
 
@@ -85,6 +87,8 @@ class App extends React.Component {
         userData={this.state.filteredUserData}
         setSelectedAppointments={this.setSelectedAppointments}
         updateRenderedItem={this.updateRenderedItem}
+        setPopupState={this.setPopupState}
+        popupState={this.state.popupState}
       />
 
     } else if (renderedItem === 'table') {
@@ -95,7 +99,8 @@ class App extends React.Component {
       return <AppointmentForm
         userData={this.state.userData}
         updateRenderedItem={this.updateRenderedItem}
-        addAppointment={this.addAppointment} />
+        addAppointment={this.addAppointment} 
+        selectedAppointments={this.selectedAppointments}/>
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer
         appointments={this.state.selectedAppointments}
@@ -104,6 +109,10 @@ class App extends React.Component {
   }
 
   updateRenderedItem = item => this.setState({ renderedItem: item })
+
+  setPopupState = (user) => {
+    this.setState({ popupState: user }, () => console.log(this.state.popupState))
+  }
 
   setSelectedAppointments = id => {
     let filteredAppointments = this.state.filteredUserData.appointments;
