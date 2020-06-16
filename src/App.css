@@ -28,6 +28,7 @@ html {
 
 .main-display {
   height: 70vh;
+  flex-grow: 1;
   box-sizing: border-box;
   border: 1px solid black;
 }
@@ -37,14 +38,6 @@ html {
   height: 20vh;
   box-sizing: border-box;
   border: 1px solid black;
-}
-
-.map-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
 }
 
 .checkbox {
@@ -81,11 +74,11 @@ table {
 }
 
 thead th:nth-child(1) {
-  width: 15%;
+  width: 5%;
 }
 
 thead th:nth-child(2) {
-  width: 15%;
+  width: 10%;
 }
 
 thead th:nth-child(3) {
@@ -94,14 +87,6 @@ thead th:nth-child(3) {
 
 thead th:nth-child(4) {
   width: 25%;
-}
-
-thead th:nth-child(5) {
-  width: 15%;
-}
-
-thead th:nth-child(6) {
-  width: 15%;
 }
 
 th {

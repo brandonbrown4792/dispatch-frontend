@@ -10,9 +10,6 @@ const renderedItemSwitch = props => {
 }
 
 function UtilitiesContainer(props) {
-    // TODO: Map filter options to container.
-    // Options: Appt type, filter by date, completed appts, incomplete appts, 
-    //      show nurses only, show patients only, filter appts by nurse
 
     return (
         <div>
@@ -22,8 +19,8 @@ function UtilitiesContainer(props) {
             <button onClick={() => props.updateRenderedItem(renderedItemSwitch(props))}>
                 Toggle map/index view
             </button>
-            <button>
-                Suggest route
+            <button onClick={() => props.updateRenderedItem('apptForm')}>
+                Add appointment
             </button>
         </div>
     )
