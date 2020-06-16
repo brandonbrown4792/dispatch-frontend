@@ -95,7 +95,7 @@ class AppointmentForm extends React.Component {
                 <Button type="submit" onClick={() => this.handleSubmit(this.state)}>
                     Submit
                 </Button>
-                <Button type="cancel" onClick={() => this.updateRenderedItem('map')}>
+                <Button type="cancel" onClick={() => this.props.updateRenderedItem('map')}>
                     Cancel
                 </Button>
             </FormControl>
