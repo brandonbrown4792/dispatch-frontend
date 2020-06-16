@@ -92,7 +92,8 @@ class App extends React.Component {
       return <AppointmentForm
         userData={this.state.userData}
         updateRenderedItem={this.updateRenderedItem}
-        addAppointment={this.addAppointment} />
+        addAppointment={this.addAppointment} 
+        selectedAppointments={this.selectedAppointments}/>
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer 
           appointments={this.state.selectedAppointments} 

@@ -22,6 +22,18 @@ class AppointmentForm extends React.Component {
     }
 
     render() {
+        let appt = this.props.selectedAppointments
+        if (appt && appt.length === 1 && !appt.completed) {
+            this.setState({
+                start_time: appt.start_time,
+                length: appt.length,
+                patient_id: appt.patient.id,
+                nurse_id: appt.nurse.id,
+                reason: appt.reason,
+                notes: appt.notes,
+                completed: false,
+            })
+        }
         return (
             <FormControl >
                 <FormControl > {/* select patient */}
@@ -32,18 +44,19 @@ class AppointmentForm extends React.Component {
                     >
                         {this.props.userData.patients.map(patient => 
                             <MenuItem 
-                                value={patient.id}
+                                value={this.state.patient.id}
                                 id="patient"
                             >
-                                {patient.name}
+                                {this.state.patient.name}
                             </MenuItem>)}
                     </Select>
                 </FormControl>
-                <TextField name="reason" label="Reason for visit" onChange={e => this.handleChange(e)} />
+                <TextField name="reason" value={this.state.reason} label="Reason for visit" onChange={e => this.handleChange(e)} />
                 <FormControl > {/* select nurse */}
                     <InputLabel id="nurse_id">Select Nurse</InputLabel>
                     <Select
                         name="nurse_id"
+                        value={this.state.nurse.id}
                         onChange={this.handleChange}
                     >
                         <MenuItem value="">
@@ -67,6 +80,7 @@ class AppointmentForm extends React.Component {
                             hintText="Select the date"
                             name="start_time"
                             type="datetime-local"
+                            defaultValue={this.state.start_time}
                             onChange={this.handleChange}
                             InputLabelProps={{
                                 shrink: true,
@@ -80,6 +94,7 @@ class AppointmentForm extends React.Component {
                         label="Estimated length"
                         id="length"
                         name="length"
+                        value={this.state.length}
                         onChange={this.handleChange}
                     >
                         <MenuItem name="length" value={30} id="length">30 minutes</MenuItem>
@@ -89,7 +104,7 @@ class AppointmentForm extends React.Component {
                     </Select>
                 </FormControl>
                 <FormControl > {/* add notes */}
-                    <InputLabel id="notes">Notes:</InputLabel>
+                    <InputLabel id="notes" value={this.state.notes}>Notes:</InputLabel>
                     <TextareaAutosize rows="4" name="notes" onChange={e => this.handleChange(e)} />
                 </FormControl>
                 <Button type="submit" onClick={() => this.handleSubmit(this.state)}>

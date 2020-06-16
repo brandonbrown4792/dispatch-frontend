@@ -2,25 +2,19 @@ import React from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import '../App.css';
 
-const mapMarkers = (userData, setPopupState, renderPopup, popupState, setSelectedAppointments) => {
-  const nurses = mapNurses(userData.nurses, setPopupState, renderPopup, popupState, setSelectedAppointments) || [];
-  const patients = mapPatients(userData.patients, setPopupState, renderPopup, popupState, setSelectedAppointments) || [];
+const mapMarkers = (userData, setSelectedAppointments, setPopupState) => {
+  const nurses = mapNurses(userData.nurses, setSelectedAppointments, setPopupState) || [];
+  const patients = mapPatients(userData.patients, setSelectedAppointments, setPopupState) || [];
   return nurses.concat(patients) || null;
 }
 
 // Original stuff
-// const handleClick = (user, setSelectedAppointments, updateRenderedItem) => {
-//   updateRenderedItem('apptDetails')
-//   setSelectedAppointments(user)
-// }
-
-const handleClick = (user, setPopupState, renderPopup, popupState, setSelectedAppointments) => {
-  setPopupState(user)
+const handleClick = (user, setSelectedAppointments, setPopupState) => {
   setSelectedAppointments(user.id)
-  // renderPopup(popupState)
+  setPopupState(user)
 }
 
-const mapNurses = (nurses, setPopupState, renderPopup, popupState, setSelectedAppointments) => {
+const mapNurses = (nurses, setSelectedAppointments, setPopupState) => {
   if (nurses) {
     return nurses.map(nurse => {
       return <Marker
@@ -28,8 +22,7 @@ const mapNurses = (nurses, setPopupState, renderPopup, popupState, setSelectedAp
         latitude={nurse.latitude}
         longitude={nurse.longitude}
       >
-        {/* <button className='marker-btn' onClick={() => handleClick(nurse.id, setSelectedAppointments, updateRenderedItem)}> */}
-        <button className='marker-btn' onClick={() => handleClick(nurse, setPopupState, renderPopup, popupState, setSelectedAppointments)}>
+        <button className='marker-btn' onClick={() => handleClick(nurse, setSelectedAppointments, setPopupState)}>
           <img src='nurse-pin.png' alt='nurse-pin' />
         </button>
       </Marker>
@@ -37,7 +30,7 @@ const mapNurses = (nurses, setPopupState, renderPopup, popupState, setSelectedAp
   }
 }
 
-const mapPatients = (patients, setPopupState, renderPopup, popupState, setSelectedAppointments) => {
+const mapPatients = (patients, setSelectedAppointments, setPopupState) => {
   if (patients) {
     return patients.map(patient => {
       return <Marker
@@ -45,8 +38,7 @@ const mapPatients = (patients, setPopupState, renderPopup, popupState, setSelect
         latitude={patient.latitude}
         longitude={patient.longitude}
       >
-        {/* <button className='marker-btn' onClick={() => handleClick(patient.id, setSelectedAppointments, updateRenderedItem)}> */}
-        <button className='marker-btn' onClick={() => handleClick(patient, setPopupState, renderPopup, popupState, setSelectedAppointments)}>
+        <button className='marker-btn' onClick={() => handleClick(patient, setSelectedAppointments, setPopupState)}>
           <img src='patient-pin.png' alt='patient-pin' />
         </button>
       </Marker>
@@ -54,11 +46,7 @@ const mapPatients = (patients, setPopupState, renderPopup, popupState, setSelect
   }
 }
 
-const renderPopup = (stateObj, setPopupState) => {
-
-  // handleClick =() => {
-
-  // }
+const renderPopup = (stateObj, setPopupState, updateRenderedItem) => {
 
   return (
     stateObj && (
@@ -73,11 +61,8 @@ const renderPopup = (stateObj, setPopupState) => {
       >
         { stateObj.name }
         { stateObj.address }
-        <button >
-          Edit
-        </button >
-        <button >
-          Delete
+        <button onClick={() => updateRenderedItem('apptDetails')}>
+          Appt Details
         </button >
       </Popup>
     )
@@ -91,8 +76,8 @@ const MapContainer = props => {
     mapStyle='mapbox://styles/rpdecks/ckbczsigy1q5m1ilf2qhgsphi'
     onViewportChange={props.handleViewportChange} // allows to drag map inside grid
   >
-    {props.userData.user_type !== 'patient' && mapMarkers(props.userData, props.setPopupState, props.renderPopup, props.popupState, props.setSelectedAppointments)}
-    {renderPopup(props.popupState, props.setPopupState)}
+    {props.userData.user_type !== 'patient' && mapMarkers(props.userData, props.setSelectedAppointments, props.setPopupState)}
+    {renderPopup(props.popupState, props.setPopupState, props.updateRenderedItem)}
   </ReactMapGL>
 }
 
