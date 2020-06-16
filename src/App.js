@@ -79,7 +79,7 @@ class App extends React.Component {
       />
 
     } else if (renderedItem === 'table') {
-      return <TableBox userData={this.state.userData} />
+      return <TableBox userData={this.state.userData} setSelectedAppointments={this.setSelectedAppointments} />
     } else if (renderedItem === 'login') {
       return <LoginForm />
     } else if (renderedItem === 'apptForm') {
