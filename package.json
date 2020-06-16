@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
+    "react-chat-widget": "^3.0.5",
     "react-dom": "^16.13.1",
     "react-map-gl": "^5.2.7",
     "react-router": "^5.2.0",
