@@ -23,7 +23,8 @@ class App extends React.Component {
     selectedAppointments: [],
     renderedItem: 'map',
     filterParams: {
-      nurse: ''
+      nurse: '',
+      patient: ''
     },
     filteredUserData: {}
   }
@@ -131,6 +132,10 @@ class App extends React.Component {
 
     if (filterParams.nurse) {
       filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse.id === parseInt(filterParams.nurse))
+    }
+
+    if (filterParams.patient) {
+      filteredUserData.patients = filteredUserData.patients.filter(patient => patient.id === parseInt(filterParams.patient))
     }
     this.setState({ filteredUserData: filteredUserData, filterParams: filterParams });
   }
