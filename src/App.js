@@ -5,8 +5,8 @@ import './App.css';
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
 import MapContainer from './Components/MapContainer'
-import AppointmentDetails from './Components/AppointmentDetails'
-import AppointmentContainer from './Components/AppointmentContainer';
+import AppointmentContainer from './Components/AppointmentContainer'
+import AppointmentDetailsContainer from './Components/AppointmentDetailsContainer'
 import LoginForm from './Components/LoginForm'
 
 class App extends React.Component {
@@ -19,6 +19,7 @@ class App extends React.Component {
       zoom: 12
     },
     userData: {},
+    selectedAppointments: [],
     renderedItem: 'map'
   }
   // should we move this into a .env file?
@@ -85,6 +86,7 @@ class App extends React.Component {
         mapboxApiAccessToken={this.mapboxToken}
         handleViewportChange={this.handleViewportChange} // allows to drag map inside grid
         userData={this.state.userData}
+        setSelectedAppointments={this.setSelectedAppointments}
       />
 
     } else if (renderedItem === 'table') {
@@ -95,6 +97,12 @@ class App extends React.Component {
   }
 
   updateRenderedItem = item => this.setState({ renderedItem: item })
+
+  setSelectedAppointments = id => {
+    this.setState({
+      selectedAppointments: this.state.userData.appointments.filter(appointment => appointment.patient_id === id || appointment.nurse_id === id)
+    })
+  }
 
   render() {
     return (
@@ -129,10 +137,7 @@ class App extends React.Component {
                 <Grid item xs={12}>
                   <div className='detail-display'>
                     <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
-                      <List>
-                        <h3>Appointment Details</h3>
-                        <AppointmentDetails />
-                      </List>
+                      {this.state.selectedAppointments.length > 0 && <AppointmentDetailsContainer appointments={this.state.selectedAppointments} />}
                     </Paper>
                   </div>
                 </Grid>
