@@ -24,7 +24,9 @@ class App extends React.Component {
     renderedItem: 'map',
     filterParams: {
       nurse: '',
-      patient: ''
+      patient: '',
+      appointmentReason: '',
+      appointmentStatus: ''
     },
     filteredUserData: {}
   }
@@ -141,6 +143,15 @@ class App extends React.Component {
 
     if (filterParams.appointmentReason) {
       const appointments = filteredUserData.appointments.filter(appointment => appointment.reason === filterParams.appointmentReason)
+      const patient_ids = appointments.map(appointment => appointment.patient_id).filter(this.onlyUnique)
+      const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
+      filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))
+      filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+    }
+
+    if (filterParams.appointmentStatus) {
+      const status = filterParams.appointmentStatus === 'complete' ? true : false;
+      const appointments = filteredUserData.appointments.filter(appointment => appointment.completed === status)
       const patient_ids = appointments.map(appointment => appointment.patient_id).filter(this.onlyUnique)
       const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
       filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))

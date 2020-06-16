@@ -13,6 +13,10 @@ const updateFilteredReason = (e, filterParams, updateFilteredUserData) => {
     updateFilteredUserData({ ...filterParams, appointmentReason: e.target.value })
 }
 
+const updateFilteredStatus = (e, filterParams, updateFilteredUserData) => {
+    updateFilteredUserData({ ...filterParams, appointmentStatus: e.target.value })
+}
+
 const mapNursesOptions = nurses => {
     if (nurses) {
         return nurses.map(nurse => <option key={nurse.id} value={nurse.id}>{nurse.name}</option>)
@@ -52,6 +56,12 @@ function FilterContainer(props) {
             <select onChange={e => updateFilteredReason(e, props.filterParams, props.updateFilteredUserData)}>
                 <option value=''>All Reasons</option>
                 {mapReasonOptions(props.userData.appointments)}
+            </select>
+            <label>Appointment Status</label>
+            <select onChange={e => updateFilteredStatus(e, props.filterParams, props.updateFilteredUserData)}>
+                <option value=''>All Statuses</option>
+                <option value='complete'>Complete</option>
+                <option value='incomplete'>Incomplete</option>
             </select>
         </div>
     )
