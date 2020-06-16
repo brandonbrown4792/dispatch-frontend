@@ -3,6 +3,7 @@ import React from 'react';
 const getAppointmentData = appointment => {
   return <React.Fragment>
     <h3>Nurse: {appointment.nurse}</h3>
+    <h3>Patient: {appointment.patient}</h3>
     <h4>Appointment Time: {getAppointmentTime(appointment.start_time)}</h4>
     <p>Length: {appointment.length}</p>
     <p>Address: {appointment.address}</p>
