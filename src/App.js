@@ -28,7 +28,8 @@ class App extends React.Component {
       appointmentReason: '',
       appointmentStatus: ''
     },
-    filteredUserData: {}
+    filteredUserData: {},
+    popupState: null,
   }
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
@@ -79,6 +80,8 @@ class App extends React.Component {
         userData={this.state.filteredUserData}
         setSelectedAppointments={this.setSelectedAppointments}
         updateRenderedItem={this.updateRenderedItem}
+        setPopupState={this.setPopupState}
+        popupState={this.state.popupState}
       />
 
     } else if (renderedItem === 'table') {
@@ -98,6 +101,10 @@ class App extends React.Component {
   }
 
   updateRenderedItem = item => this.setState({ renderedItem: item })
+
+  setPopupState = (user) => {
+    this.setState({ popupState: user }, () => console.log(this.state.popupState))
+  }
 
   setSelectedAppointments = id => {
     this.setState({
