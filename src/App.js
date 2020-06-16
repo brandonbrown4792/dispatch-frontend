@@ -5,7 +5,7 @@ import './App.css'
 import MenuAppBar from './Components/MenuAppBar'
 import UtilitiesContainer from './Components/UtilitiesContainer'
 import MapContainer from './Components/MapContainer'
-import AppointmentDetails from './Components/AppointmentDetails'
+import AppointmentDetailsContainer from './Components/AppointmentDetailsContainer'
 import TableBox from './Components/TableBox'
 import LoginForm from './Components/LoginForm'
 import AppointmentForm from './Components/AppointmentForm'
@@ -20,6 +20,7 @@ class App extends React.Component {
       zoom: 12
     },
     userData: {},
+    selectedAppointments: [],
     renderedItem: 'map'
   }
   // should we move this into a .env file?
@@ -74,6 +75,7 @@ class App extends React.Component {
         mapboxApiAccessToken={this.mapboxToken}
         handleViewportChange={this.handleViewportChange} // allows to drag map inside grid
         userData={this.state.userData}
+        setSelectedAppointments={this.setSelectedAppointments}
       />
 
     } else if (renderedItem === 'table') {
@@ -81,14 +83,20 @@ class App extends React.Component {
     } else if (renderedItem === 'login') {
       return <LoginForm />
     } else if (renderedItem === 'apptForm') {
-      return <AppointmentForm 
-                userData={this.state.userData}
-                updateRenderedItem={this.updateRenderedItem}
-                addAppointment={this.addAppointment} />
+      return <AppointmentForm
+        userData={this.state.userData}
+        updateRenderedItem={this.updateRenderedItem}
+        addAppointment={this.addAppointment} />
     }
   }
 
   updateRenderedItem = item => this.setState({ renderedItem: item })
+
+  setSelectedAppointments = id => {
+    this.setState({
+      selectedAppointments: this.state.userData.appointments.filter(appointment => appointment.patient_id === id || appointment.nurse_id === id)
+    })
+  }
 
   addAppointment = (appt) => {
     const auth_token = localStorage.getItem('auth_token');
@@ -105,11 +113,11 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         patient_id: appt.patient_id,
-        nurse_id: appt.nurse_id, 
-        address: appt.address, 
-        start_time: appt.start_time, 
+        nurse_id: appt.nurse_id,
+        address: appt.address,
+        start_time: appt.start_time,
         length: appt.length,
-        reason: appt.reason, 
+        reason: appt.reason,
         notes: appt.notes
       })
     }
@@ -130,7 +138,7 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={2}>
             <div className='nav-left'>
-              <Paper style={{ maxHeight: '90vh', overflow: 'auto'}}>
+              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
                 <List>
                   <UtilitiesContainer
                     filterTypes={this.filterTypes}
@@ -152,10 +160,7 @@ class App extends React.Component {
                 <Grid item xs={12}>
                   <div className='detail-display'>
                     <Paper style={{ maxHeight: '20vh', overflow: 'auto' }}>
-                      <List>
-                        <h3>Appointment Details</h3>
-                        <AppointmentDetails />
-                      </List>
+                      {this.state.selectedAppointments.length > 0 && <AppointmentDetailsContainer appointments={this.state.selectedAppointments} />}
                     </Paper>
                   </div>
                 </Grid>
