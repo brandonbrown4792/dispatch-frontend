@@ -4,7 +4,6 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 const createTableHeaders = () => {
     return (
         <TableRow>
-            <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Address</TableCell>
@@ -12,19 +11,18 @@ const createTableHeaders = () => {
     )
 }
 
-const nurseTable = nurses => {
+const nurseTable = (nurses, setSelectedAppointments) => {
     if (nurses && nurses.length > 0) {
         return (
-            <>
+            <React.Fragment>
                 <h3>Nurse Information:</h3>
                 <Table size="small" aria-label="a dense table">
                     <TableHead>
-                        {createTableHeaders(nurses[0])}
+                        {createTableHeaders()}
                     </TableHead>
                     <TableBody>
                         {nurses.map((nurse) => (
-                            <TableRow key={nurse.id}>
-                                <TableCell component="th" scope="row">{nurse.id}</TableCell>
+                            <TableRow key={nurse.id} onClick={() => setSelectedAppointments(nurse.id)}>
                                 <TableCell >{nurse.name}</TableCell>
                                 <TableCell >{nurse.email}</TableCell>
                                 <TableCell >{nurse.address}</TableCell>
@@ -32,24 +30,23 @@ const nurseTable = nurses => {
                         ))}
                     </TableBody>I
                 </Table>
-           </>
+            </React.Fragment>
         )
     }
 }
 
-const patientTable = patients => {
+const patientTable = (patients, setSelectedAppointments) => {
     if (patients && patients.length > 0) {
         return (
             <>
                 <h3>Patient Information:</h3>
                 <Table size="small" aria-label="a dense table">
                     <TableHead>
-                        {createTableHeaders(patients[0])}
+                        {createTableHeaders()}
                     </TableHead>
                     <TableBody>
                         {patients.map((patient) => (
-                            <TableRow key={patient.id}>
-                                <TableCell component="th" scope="row">{patient.id}</TableCell>
+                            <TableRow key={patient.id} onClick={() => setSelectedAppointments(patient.id)}>
                                 <TableCell >{patient.name}</TableCell>
                                 <TableCell >{patient.email}</TableCell>
                                 <TableCell >{patient.address}</TableCell>
@@ -66,8 +63,8 @@ const TableBox = props => {
     return (
         <Paper style={{ maxHeight: '70vh', overflow: 'auto' }}>
             <TableContainer>
-                {nurseTable(props.userData.nurses)}
-                {patientTable(props.userData.patients)}
+                {nurseTable(props.userData.nurses, props.setSelectedAppointments)}
+                {patientTable(props.userData.patients, props.setSelectedAppointments)}
             </TableContainer>
         </Paper>
     )
