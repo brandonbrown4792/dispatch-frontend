@@ -15,11 +15,11 @@ class App extends React.Component {
     viewport: {
       latitude: 33.8145,
       longitude: -84.3539,
-      height: '94vh',
+      height: '89.5vh',
       width: '83vw',
       zoom: 12
     },
-    userData: {}, 
+    userData: {},
     selectedAppointments: [],
     renderedItem: 'map',
     filterParams: {
@@ -97,9 +97,9 @@ class App extends React.Component {
         updateRenderedItem={this.updateRenderedItem}
         addAppointment={this.addAppointment} />
     } else if (renderedItem === 'apptDetails') {
-      return <AppointmentDetailsContainer 
-          appointments={this.state.selectedAppointments} 
-          updateRenderedItem={this.updateRenderedItem} />
+      return <AppointmentDetailsContainer
+        appointments={this.state.selectedAppointments}
+        updateRenderedItem={this.updateRenderedItem} />
     }
   }
 
@@ -201,7 +201,7 @@ class App extends React.Component {
           {/* </Grid> */}
           <Grid item xs={2}>
             <div className='nav-left'>
-              <Paper style={{ maxHeight: '100vh', overflow: 'auto' }}>
+              <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
                 <List>
                   <UtilitiesContainer
                     filterParams={this.state.filterParams}
@@ -217,9 +217,9 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/'>
               <Grid container item xs={10} className='main-display'>
-                  <Grid item xs={12}>
-                    {this.whatToRender()}
-                  </Grid>
+                <Paper style={{ maxHeight: '90vh', overflow: 'auto', width: '90vw' }}>
+                  {this.whatToRender()}
+                </Paper>
               </Grid>
             </Route>
             <Route exact path='/login'>
