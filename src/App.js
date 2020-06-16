@@ -111,19 +111,20 @@ class App extends React.Component {
         'Auth-Token': auth_token
       },
       body: JSON.stringify({
-        patient_id: appt.patient_id,
-        nurse_id: appt.nurse_id,
-        address: appt.address,
-        start_time: appt.start_time,
-        length: appt.length,
-        reason: appt.reason,
-        notes: appt.notes
+        patient_id: apptObj.patient_id,
+        nurse_id: apptObj.nurse_id, 
+        start_time: apptObj.start_time, 
+        length: apptObj.length,
+        reason: apptObj.reason, 
+        notes: apptObj.notes
       })
     }
 
     fetch('http://localhost:3000/api/v1/appointments', fetchObj)
       .then(res => res.json())
-      .then(appt => console.log(appt))
+      .then(appt => this.setState({
+        userData: {...this.state.userData, appointments: [...this.state.userData.appointments, appt]}
+      }))
   }
 
   updateFilteredUserData = filterParams => {
