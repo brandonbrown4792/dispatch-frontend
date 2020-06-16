@@ -84,6 +84,14 @@ class App extends React.Component {
   whatToRender = () => {
     const renderedItem = this.state.renderedItem;
 
+    if (this.state.userData.user_type === 'patient') {
+      return <AppointmentDetailsContainer
+        appointments={this.state.userData.appointments}
+        updateRenderedItem={this.updateRenderedItem}
+        userType={this.state.userData.user_type}
+        getMessages={this.getMessages} />
+    }
+
     if (renderedItem === 'map') {
       return <MapContainer
         viewport={this.state.viewport}
@@ -214,18 +222,26 @@ class App extends React.Component {
   }
 
   fetchMessages = id => {
+    const messageObj = {
+      message: {
+        userId: id
+      }
+    }
+
     const fetchObj = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Auth-Token': localStorage.getItem('auth_token')
       },
-      body: JSON.stringify({ message: { userId: id } })
+      body: JSON.stringify(messageObj)
     }
 
     fetch('http://localhost:3000/api/v1/get-messages', fetchObj)
       .then(res => res.json())
-      .then(messages => this.writeMessages(messages))
+      .then(messages => {
+        this.writeMessages(messages)
+      })
   }
 
   writeMessages = messages => {
@@ -250,9 +266,9 @@ class App extends React.Component {
         'Auth-Token': localStorage.getItem('auth_token')
       },
       body: JSON.stringify({
-        message: {
-          content: message,
-          userId: this.state.chatPerson
+        "message": {
+          "content": message,
+          "userId": this.state.chatPerson
         }
       })
     }
