@@ -14,7 +14,6 @@ const mapAppointments = appointments => {
 }
 
 const AppointmentDetailsContainer = props => {
-  console.log(props.appointments)
   return (
     <div className='appointment-details-container'>
       {mapAppointments(props.appointments)}

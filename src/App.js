@@ -21,15 +21,14 @@ class App extends React.Component {
     },
     userData: {},
     selectedAppointments: [],
-    renderedItem: 'map'
+    renderedItem: 'map',
+    filterParams: {
+      nurse: ''
+    },
+    filteredUserData: {}
   }
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
-
-  // Here we can maintain filter labels and pass them as props. We may want a function that pushes all nurse names into this arry as well as appt types automatically. These filterTypes should be passed as props for mapping in FilterContainer.
-  filterTypes = ['Appt type 1', 'Appt type 2', 'Filter by Date', 'Completed appts',
-    'Incomplete appts', 'Show nurses only', 'Show patients only',
-    'Filter appts by nurse1', 'Filter appts by nurse2']
 
   handleViewportChange = viewport => {
     this.setState({
@@ -63,7 +62,7 @@ class App extends React.Component {
 
     fetch('http://localhost:3000/api/v1/get-info', fetchObj)
       .then(res => res.json())
-      .then(userData => this.setState({ userData: userData }))
+      .then(userData => this.setState({ userData: userData, filteredUserData: userData }))
   }
 
   whatToRender = () => {
@@ -74,12 +73,12 @@ class App extends React.Component {
         viewport={this.state.viewport}
         mapboxApiAccessToken={this.mapboxToken}
         handleViewportChange={this.handleViewportChange} // allows to drag map inside grid
-        userData={this.state.userData}
+        userData={this.state.filteredUserData}
         setSelectedAppointments={this.setSelectedAppointments}
       />
 
     } else if (renderedItem === 'table') {
-      return <TableBox userData={this.state.userData} setSelectedAppointments={this.setSelectedAppointments} />
+      return <TableBox userData={this.state.filteredUserData} setSelectedAppointments={this.setSelectedAppointments} />
     } else if (renderedItem === 'login') {
       return <LoginForm />
     } else if (renderedItem === 'apptForm') {
@@ -127,6 +126,15 @@ class App extends React.Component {
       .then(appt => console.log(appt))
   }
 
+  updateFilteredUserData = filterParams => {
+    let filteredUserData = { ...this.state.userData };
+
+    if (filterParams.nurse) {
+      filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse.id === parseInt(filterParams.nurse))
+    }
+    this.setState({ filteredUserData: filteredUserData, filterParams: filterParams });
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -141,7 +149,9 @@ class App extends React.Component {
               <Paper style={{ maxHeight: '90vh', overflow: 'auto' }}>
                 <List>
                   <UtilitiesContainer
-                    filterTypes={this.filterTypes}
+                    filterParams={this.state.filterParams}
+                    updateFilteredUserData={this.updateFilteredUserData}
+                    userData={this.state.userData}
                     updateRenderedItem={this.updateRenderedItem}
                     renderedItem={this.state.renderedItem}
                   />

@@ -10,11 +10,13 @@ const renderedItemSwitch = props => {
 }
 
 function UtilitiesContainer(props) {
-
     return (
         <div>
-            <FilterContainer filterTypes={props.filterTypes} />
-            <br />
+            <FilterContainer
+                userData={props.userData}
+                filterParams={props.filterParams}
+                updateFilteredUserData={props.updateFilteredUserData}
+            />
             Buttons:
             <button onClick={() => props.updateRenderedItem(renderedItemSwitch(props))}>
                 Toggle map/index view
