@@ -8,7 +8,7 @@ const getAppointmentData = (appointment) => {
       <CardContent>
         <Typography style={{ fontSize: 14 }} color="textSecondary" gutterBottom>
           Appointment Information:
-            </Typography>
+        </Typography>
         <Typography variant="h5" component="h4">
           Nurse: {appointment.nurse}
         </Typography>
