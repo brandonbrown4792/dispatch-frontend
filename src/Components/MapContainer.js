@@ -62,7 +62,10 @@ const renderPopup = (stateObj, setPopupState, updateRenderedItem) => {
         <div>
           <b>{ stateObj.name }</b><br />
           { stateObj.address }<br />
-          <button onClick={() => updateRenderedItem('apptDetails')}>
+          <button onClick={() => {
+            updateRenderedItem('apptDetails')
+            setPopupState(null)
+          }}>
             Appt Details
           </button >
         </div>
