@@ -28,7 +28,7 @@ const nurseTable = (nurses, setSelectedAppointments) => {
                                 <TableCell >{nurse.address}</TableCell>
                             </TableRow>
                         ))}
-                    </TableBody>I
+                    </TableBody>
                 </Table>
             </React.Fragment>
         )
@@ -61,12 +61,11 @@ const patientTable = (patients, setSelectedAppointments) => {
 
 const TableBox = props => {
     return (
-        <Paper style={{ maxHeight: '70vh', overflow: 'auto' }}>
-            <TableContainer>
-                {nurseTable(props.userData.nurses, props.setSelectedAppointments)}
-                {patientTable(props.userData.patients, props.setSelectedAppointments)}
-            </TableContainer>
-        </Paper>
+        <TableContainer>
+            {nurseTable(props.userData.nurses, props.setSelectedAppointments)}
+            <br />
+            {patientTable(props.userData.patients, props.setSelectedAppointments)}
+        </TableContainer>
     )
 }
 
