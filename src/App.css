@@ -22,6 +22,10 @@ html {
   border: 1px solid black;
 }
 
+.utility-container {
+  padding: 5px;
+}
+
 .main-display {
   height: 90vh;
   /* flex-grow: 1; */
