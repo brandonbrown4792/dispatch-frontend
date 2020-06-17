@@ -105,13 +105,12 @@ const getEditDelButtons = (appointment, setFormApptData, updateRenderedItem, del
   if (appointment.userType !== 'patient') {
     return (
       <span>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           onClick={() => handleEditClick(appointment, setFormApptData, updateRenderedItem)}>
-            Edit Appt
-        </Button> 
-        <Button 
-          variant="contained" 
+          Edit Appt
+        </Button> <Button
+          variant="contained"
           // onClick={() => deleteAppointment(appointment.id)}>Delete Appt</Button>
           onClick={() => handleDelete(appointment.id, deleteAppointment, updateRenderedItem)}>Delete Appt</Button>
       </span>
