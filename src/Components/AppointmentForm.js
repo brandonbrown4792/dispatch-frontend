@@ -3,6 +3,8 @@ import { FormControl, InputLabel, MenuItem, Select, TextField, TextareaAutosize,
 
 const AppointmentForm = props => {
 
+    let formattedDateTime = props.formApptData.start_time.slice(0, 19)
+
     const handleSubmit = (props) => {
         if (props.formApptData.id) {
             props.editAppointment(props.formApptData)
@@ -12,7 +14,6 @@ const AppointmentForm = props => {
         props.updateRenderedItem('map') 
     }
 
-    // debugger
     return (
         <FormControl >
             <FormControl > {/* select patient */}
@@ -21,14 +22,14 @@ const AppointmentForm = props => {
                     name="patient_id"
                     id="patient_id"
                     labelId="patient"
-                    // value={ props.formpAptData.patient_id }
+                    value={`${props.formApptData.patient_id}`}
                     onChange={e => props.setFormState(e)}
                 >
                     {props.userData.patients.map(patient => 
                         <MenuItem 
                             id="patient"
                             selected={props.formApptData.patient_id === patient.id}
-                            value={patient.id}
+                            value={`${patient.id}`}
                         >
                             {patient.name}
                         </MenuItem>)}
@@ -47,7 +48,7 @@ const AppointmentForm = props => {
                         name="nurse_id"
                         id="nurse_id"
                         labelId="nurse"
-                        value={props.formApptData.nurse_id}
+                        value={`${props.formApptData.nurse_id}`}
                         onChange={e => props.setFormState(e)}
                     >
                         <MenuItem value="">
@@ -56,7 +57,7 @@ const AppointmentForm = props => {
                         { props.userData.nurses.map(nurse => 
                             <MenuItem 
                                 id="nurse_id"
-                                value={nurse.id}
+                                value={`${nurse.id}`}
                             >
                                 {nurse.name}
                             </MenuItem>)}
@@ -71,7 +72,8 @@ const AppointmentForm = props => {
                         label="Next appointment"
                         name="start_time"
                         type="datetime-local"
-                        defaultValue={props.formApptData.start_time} //is date time format correct coming from the backend for edits?
+                        // defaultValue={props.formApptData.start_time}
+                        defaultValue={formattedDateTime}
                         onChange={e => props.setFormState(e)}
                         InputLabelProps={{
                             shrink: true,
