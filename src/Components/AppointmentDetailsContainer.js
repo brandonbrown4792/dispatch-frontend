@@ -1,10 +1,11 @@
 import React from 'react';
 import Appointment from './Appointment';
 
-const mapAppointments = (appointments, userType, getMessages) => {
+const mapAppointments = (appointments, userType, getMessages, setFormApptData, updateRenderedItem) => {
   if (appointments.length > 0) {
     return appointments.map((appointment, i) => <Appointment
       key={i}
+      id={appointment.id}
       address={appointment.address}
       completed={appointment.completed}
       getMessages={getMessages}
@@ -17,6 +18,8 @@ const mapAppointments = (appointments, userType, getMessages) => {
       reason={appointment.reason}
       start_time={appointment.start_time}
       userType={userType}
+      setFormApptData={setFormApptData}
+      updateRenderedItem={updateRenderedItem}
     />)
   }
 }
@@ -24,6 +27,7 @@ const mapAppointments = (appointments, userType, getMessages) => {
 const AppointmentDetailsContainer = props => {
   return (
     <div className='appointment-details-container'>
+      {mapAppointments(props.appointments, props.userType, props.getMessages, props.setFormApptData, props.updateRenderedItem)}
       {mapAppointments(props.appointments, props.userType, props.getMessages)}
     </div>
   )

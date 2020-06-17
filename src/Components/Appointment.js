@@ -46,7 +46,8 @@ const getAppointmentData = (appointment) => {
         <Typography variant="h6" component="h6">
           Status: {appointment.completed ? 'Complete' : 'Incomplete'}
         </Typography><br />
-        {getMessageButtons(appointment.userType, appointment.nurseId, appointment.patientId, appointment.getMessages)}
+            {getMessageButtons(appointment.userType, appointment.nurseId, appointment.patientId, appointment.getMessages)}
+            {getEditDelButtons(appointment, appointment.setFormApptData, appointment.updateRenderedItem)}
       </CardContent>
     </Card>
     <br />
@@ -81,6 +82,24 @@ const getMessageButtons = (userType, nurseId, patientId, getMessages) => {
       </React.Fragment>
     default:
       return;
+  }
+}
+
+const handleEditClick = (appointment, setFormApptData, updateRenderedItem) => {
+  // set state with appt data
+  setFormApptData(appointment)
+  // render filled in appt form
+  updateRenderedItem('apptForm')
+}
+
+const getEditDelButtons = ( appointment, setFormApptData, updateRenderedItem ) => {
+  if (appointment.userType !== 'patient') {
+    return ( 
+      <>
+        <Button variant="contained" onClick={() => handleEditClick(appointment, setFormApptData, updateRenderedItem)}>Edit Appt</Button>
+        <Button variant="contained">Delete Appt</Button>
+      </>
+    )
   }
 }
 

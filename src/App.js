@@ -40,6 +40,17 @@ class App extends React.Component {
     },
     showMessages: false,
     messages: [],
+    formApptData: {
+      apptId: '',
+      patient_name: '',
+      start_time: '',
+      length: '',
+      patient_id: '',
+      nurse_id: '',
+      reason: '',
+      notes: '',
+      completed: false,
+    },
     chatPerson: ''
   }
 
@@ -112,13 +123,17 @@ class App extends React.Component {
       return <AppointmentForm
         userData={this.state.userData}
         updateRenderedItem={this.updateRenderedItem}
-        addAppointment={this.addAppointment}
+        addAppointment={this.addAppointment} 
+        editAppointment={this.editAppointment} 
+        formApptData={this.state.formApptData}
+        setFormState={this.setFormState} />
         selectedAppointments={this.selectedAppointments} />
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer
         appointments={this.state.selectedAppointments}
         updateRenderedItem={this.updateRenderedItem}
         userType={this.state.userData.user_type}
+        setFormApptData={this.setFormApptData} />
         getMessages={this.getMessages} />
     }
   }
@@ -126,7 +141,7 @@ class App extends React.Component {
   updateRenderedItem = item => this.setState({ renderedItem: item })
 
   setPopupState = (user) => {
-    this.setState({ popupState: user }, () => console.log(this.state.popupState))
+    this.setState({ popupState: user })
   }
 
   setSelectedAppointments = id => {
@@ -137,6 +152,16 @@ class App extends React.Component {
     this.setState({
       selectedAppointments: selectedAppointments
     })
+  }
+
+  setFormApptData = appt => {
+    this.setState({ 
+      formApptData: appt 
+    })
+  }
+
+  setFormState = (e) => {
+    this.setState({ formApptData: {...this.state.formApptData, [e.target.name]: e.target.value }})
   }
 
   addAppointment = (appt) => {
@@ -166,6 +191,45 @@ class App extends React.Component {
       .then(res => res.json())
       .then(appt => this.setState({
         userData: { ...this.state.userData, appointments: [...this.state.userData.appointments, appt] }
+      }))
+  }
+
+  editAppointment = (appt) => {
+    const auth_token = localStorage.getItem('auth_token');
+
+    if (!auth_token) {
+      return;
+    }
+
+    const fetchObj = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Auth-Token': auth_token
+      },
+      body: JSON.stringify({
+        patient_id: appt.patient_id,
+        nurse_id: appt.nurse_id,
+        start_time: appt.start_time,
+        length: appt.length,
+        reason: appt.reason,
+        notes: appt.notes
+      })
+    }
+
+    fetch(`http://localhost:3000/api/v1/appointments/${appt.id}`, fetchObj)
+      .then(res => res.json())
+      .then(appt => this.setState({
+        userData: {
+          ...this.state.userData,
+          appointments: this.state.userData.appointments.map(appointment => {
+            if (appointment.id === appt.id) {
+              return appt;
+            } else {
+              return appointment
+            }
+          })
+        }
       }))
   }
 
