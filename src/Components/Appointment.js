@@ -47,7 +47,7 @@ const getAppointmentData = (appointment) => {
           Status: {appointment.completed ? 'Complete' : 'Incomplete'}
         </Typography><br />
             {getMessageButtons(appointment.userType, appointment.nurseId, appointment.patientId, appointment.getMessages)}
-            {getEditDelButtons(appointment, appointment.setFormApptData, appointment.updateRenderedItem)}
+            {getEditDelButtons(appointment, appointment.setFormApptData, appointment.updateRenderedItem, appointment.deleteAppointment)}
       </CardContent>
     </Card>
     <br />
@@ -92,12 +92,12 @@ const handleEditClick = (appointment, setFormApptData, updateRenderedItem) => {
   updateRenderedItem('apptForm')
 }
 
-const getEditDelButtons = ( appointment, setFormApptData, updateRenderedItem ) => {
+const getEditDelButtons = ( appointment, setFormApptData, updateRenderedItem, deleteAppointment ) => {
   if (appointment.userType !== 'patient') {
     return ( 
       <>
         <Button variant="contained" onClick={() => handleEditClick(appointment, setFormApptData, updateRenderedItem)}>Edit Appt</Button>
-        <Button variant="contained">Delete Appt</Button>
+        <Button variant="contained" onClick={() => deleteAppointment(appointment.id)}>Delete Appt</Button>
       </>
     )
   }

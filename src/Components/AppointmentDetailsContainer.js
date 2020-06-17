@@ -2,7 +2,7 @@ import React from 'react';
 import Appointment from './Appointment';
 import { Button } from '@material-ui/core'
 
-const mapAppointments = (appointments, userType, getMessages, setFormApptData, updateRenderedItem) => {
+const mapAppointments = (appointments, userType, getMessages, setFormApptData, updateRenderedItem, deleteAppointment) => {
   if (appointments.length > 0) {
     return appointments.map((appointment, i) => <Appointment
       key={i}
@@ -21,6 +21,7 @@ const mapAppointments = (appointments, userType, getMessages, setFormApptData, u
       userType={userType}
       setFormApptData={setFormApptData}
       updateRenderedItem={updateRenderedItem}
+      deleteAppointment={deleteAppointment}
     />)
   }
 }
@@ -32,7 +33,7 @@ const AppointmentDetailsContainer = props => {
       <Button onClick={() => props.updateRenderedItem('map')}>
         Back to map
       </Button>}
-      {mapAppointments(props.appointments, props.userType, props.getMessages, props.setFormApptData, props.updateRenderedItem)}
+      {mapAppointments(props.appointments, props.userType, props.getMessages, props.setFormApptData, props.updateRenderedItem, props.deleteAppointment)}
       {mapAppointments(props.appointments, props.userType, props.getMessages)}
     </div>
   )
