@@ -65,11 +65,14 @@ function FilterContainer(props) {
     return (
         <div>
             <h3>Filters:</h3>
-            <label>Nurse</label><br />
-            <select onChange={e => updateFilteredNurse(e, props.filterParams, props.updateFilteredUserData)}>
-                <option value=''>All Nurses</option>
-                {mapNursesOptions(props.userData.nurses)}
-            </select><br /><br />
+            {props.userData.user_type === 'dispatcher' &&
+                <React.Fragment>
+                    <label>Nurse</label><br />
+                    <select onChange={e => updateFilteredNurse(e, props.filterParams, props.updateFilteredUserData)}>
+                        <option value=''>All Nurses</option>
+                        {mapNursesOptions(props.userData.nurses)}
+                    </select><br /><br />
+                </React.Fragment>}
             <label>Patient</label><br />
             <select onChange={e => updateFilteredPatient(e, props.filterParams, props.updateFilteredUserData)}>
                 <option value=''>All Patients</option>
