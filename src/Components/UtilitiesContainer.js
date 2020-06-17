@@ -1,5 +1,6 @@
 import React from 'react'
 import FilterContainer from './FilterContainer'
+import { Button } from '@material-ui/core'
 
 const renderedItemSwitch = props => {
     if (props.renderedItem === 'map') {
@@ -11,7 +12,7 @@ const renderedItemSwitch = props => {
 
 function UtilitiesContainer(props) {
     return (
-        <div>
+        <div className='utility-container'>
             {props.userData.user_type !== 'patient' && <React.Fragment>
                 <FilterContainer
                     userData={props.userData}
@@ -20,12 +21,13 @@ function UtilitiesContainer(props) {
                 />
                 {props.userData.user_type === 'dispatcher' &&
                     <React.Fragment>
-                        <button onClick={() => props.updateRenderedItem(renderedItemSwitch(props))}>
+                        <br />
+                        <Button variant="contained" onClick={() => props.updateRenderedItem(renderedItemSwitch(props))}>
                             Toggle map/index view
-                    </button>
-                        <button onClick={() => props.updateRenderedItem('apptForm')}>
+                        </Button><br /><br />
+                        <Button variant="contained" onClick={() => props.updateRenderedItem('apptForm')}>
                             Add appointment
-                    </button>
+                        </Button>
                     </React.Fragment>}
             </React.Fragment>}
         </div>
