@@ -27,7 +27,6 @@ const mapAppointments = (appointments, userType, getMessages, setFormApptData, u
 }
 
 const AppointmentDetailsContainer = props => {
-  debugger;
   return (
     <div className='appointment-details-container'>
       {(props.userType === 'nurse' || props.userType === 'dispatcher') &&
