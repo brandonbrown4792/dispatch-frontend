@@ -12,6 +12,7 @@ const AppointmentForm = props => {
         props.updateRenderedItem('map') 
     }
 
+    // debugger
     return (
         <FormControl >
             <FormControl > {/* select patient */}
@@ -39,25 +40,28 @@ const AppointmentForm = props => {
                 label="Reason for visit" 
                 onChange={e => props.setFormState(e)} />
             <FormControl > {/* select nurse */}
-                <InputLabel id="nurse_id">Select Nurse</InputLabel>
-                <Select
-                    name="nurse_id"
-                    id="nurse_id"
-                    labelId="nurse"
-                    value={props.formApptData.nurse_id}
-                    onChange={e => props.setFormState(e)}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    {props.userData.nurses.map(nurse => 
-                        <MenuItem 
-                            id="nurse_id"
-                            value={nurse.id}
-                        >
-                            {nurse.name}
-                        </MenuItem>)}
-                </Select>
+                { props.userData.nurses &&
+                <>
+                    <InputLabel id="nurse_id">Select Nurse</InputLabel>
+                    <Select
+                        name="nurse_id"
+                        id="nurse_id"
+                        labelId="nurse"
+                        value={props.formApptData.nurse_id}
+                        onChange={e => props.setFormState(e)}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        { props.userData.nurses.map(nurse => 
+                            <MenuItem 
+                                id="nurse_id"
+                                value={nurse.id}
+                            >
+                                {nurse.name}
+                            </MenuItem>)}
+                    </Select>
+                </>}
             </FormControl>
             <FormControl > {/* select date */}
                 <form noValidate>
