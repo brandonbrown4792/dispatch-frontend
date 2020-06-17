@@ -58,17 +58,17 @@ class App extends React.Component {
   // should we move this into a .env file?
   mapboxToken = 'pk.eyJ1IjoicnBkZWNrcyIsImEiOiJja2JiOTVrY20wMjYxMm5tcWN6Zmtkdno0In0.F_U-T3nJUgcaJGb6dO5ceQ'
 
-  handleViewportChange = viewport => {
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
-    })
-  }
-
   componentDidMount() {
     this.getUserData();
     if (localStorage.getItem('auth_token')) {
       this.setState({ isLoggedIn: true })
     }
+  }
+
+  handleViewportChange = viewport => {
+    this.setState({
+      viewport: { ...this.state.viewport, ...viewport }
+    })
   }
 
   handleLogin = token => {
@@ -144,7 +144,8 @@ class App extends React.Component {
         updateRenderedItem={this.updateRenderedItem}
         userType={this.state.userData.user_type}
         setFormApptData={this.setFormApptData}
-        getMessages={this.getMessages} />
+        getMessages={this.getMessages} 
+        deleteAppointment={this.deleteAppointment} />
     }
   }
 
@@ -241,6 +242,30 @@ class App extends React.Component {
           })
         }
       }))
+  }
+
+  deleteAppointment = (id) => {
+    const auth_token = localStorage.getItem('auth_token');
+
+    if (!auth_token) {
+      return;
+    }
+
+    const fetchObj = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Auth-Token': auth_token
+      },
+    }
+
+    fetch(`http://localhost:3000/api/v1/appointments/${id}`, fetchObj)
+      .then(res => res.json())
+      .then(appt => {
+        let apptsCopy = [...this.state.userData.appointments]
+        apptsCopy.filter(appointment => appointment.id !== appt.id)
+        this.setState({ userData: { ...this.state.userData , appointments: apptsCopy}}, () => console.log(appt))
+      })
   }
 
   updateFilteredUserData = filterParams => {

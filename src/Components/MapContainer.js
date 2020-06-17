@@ -8,7 +8,6 @@ const mapMarkers = (userData, setSelectedAppointments, setPopupState) => {
   return nurses.concat(patients) || null;
 }
 
-// Original stuff
 const handleClick = (user, setSelectedAppointments, setPopupState) => {
   setSelectedAppointments(user.id)
   setPopupState(user)
