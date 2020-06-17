@@ -93,11 +93,27 @@ const handleEditClick = (appointment, setFormApptData, updateRenderedItem) => {
   updateRenderedItem('apptForm')
 }
 
+const handleDelete = (id, deleteAppointment, updateRenderedItem) => {
+  let result = window.confirm('Are you sure you want to delete this item?')
+  if (result) {
+    deleteAppointment(id)
+    updateRenderedItem('map')
+  }
+}
+
 const getEditDelButtons = (appointment, setFormApptData, updateRenderedItem, deleteAppointment) => {
   if (appointment.userType !== 'patient') {
     return (
       <span>
-        <Button variant="contained" onClick={() => handleEditClick(appointment, setFormApptData, updateRenderedItem)}>Edit Appt</Button> <Button variant="contained" onClick={() => deleteAppointment(appointment.id)}>Delete Appt</Button>
+        <Button 
+          variant="contained" 
+          onClick={() => handleEditClick(appointment, setFormApptData, updateRenderedItem)}>
+            Edit Appt
+        </Button> 
+        <Button 
+          variant="contained" 
+          // onClick={() => deleteAppointment(appointment.id)}>Delete Appt</Button>
+          onClick={() => handleDelete(appointment.id, deleteAppointment, updateRenderedItem)}>Delete Appt</Button>
       </span>
     )
   }
