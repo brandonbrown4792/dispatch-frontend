@@ -133,3 +133,7 @@ thead th, tfoot th, tfoot td {
   width: 100px;
   height: 100px;
 }
+
+.popup  {
+  text-align: center;
+}

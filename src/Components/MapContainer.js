@@ -51,7 +51,7 @@ const renderPopup = (stateObj, setPopupState, updateRenderedItem) => {
   return (
     stateObj && (
       <Popup
-        classname="popup"
+        className="popup"
         tipSize={5}
         anchor="top"
         longitude={stateObj.longitude}
@@ -59,11 +59,13 @@ const renderPopup = (stateObj, setPopupState, updateRenderedItem) => {
         closeOnClick={false}
         onClose={() => setPopupState(null)}
       >
-        { stateObj.name }
-        { stateObj.address }
-        <button onClick={() => updateRenderedItem('apptDetails')}>
-          Appt Details
-        </button >
+        <div>
+          <b>{ stateObj.name }</b><br />
+          { stateObj.address }<br />
+          <button onClick={() => updateRenderedItem('apptDetails')}>
+            Appt Details
+          </button >
+        </div>
       </Popup>
     )
   );
