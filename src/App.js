@@ -144,7 +144,7 @@ class App extends React.Component {
         updateRenderedItem={this.updateRenderedItem}
         userType={this.state.userData.user_type}
         setFormApptData={this.setFormApptData}
-        getMessages={this.getMessages} 
+        getMessages={this.getMessages}
         deleteAppointment={this.deleteAppointment} />
     }
   }
@@ -264,7 +264,7 @@ class App extends React.Component {
       .then(appt => {
         let apptsCopy = [...this.state.userData.appointments]
         apptsCopy.filter(appointment => appointment.id !== appt.id)
-        this.setState({ userData: { ...this.state.userData , appointments: apptsCopy}}, () => console.log(appt))
+        this.setState({ userData: { ...this.state.userData, appointments: apptsCopy } }, () => console.log(appt))
       })
   }
 
@@ -310,7 +310,9 @@ class App extends React.Component {
     const nurse_ids = appointments.map(appointment => appointment.nurse_id).filter(this.onlyUnique)
     filteredUserData.appointments = appointments;
     filteredUserData.patients = filteredUserData.patients.filter(patient => patient_ids.includes(patient.id))
-    filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+    if (filteredUserData.nurses) {
+      filteredUserData.nurses = filteredUserData.nurses.filter(nurse => nurse_ids.includes(nurse.id))
+    }
   }
 
   onlyUnique = (value, index, self) => self.indexOf(value) === index;
