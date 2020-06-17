@@ -4,7 +4,8 @@ import { Button } from '@material-ui/core'
 
 const mapAppointments = (appointments, userType, getMessages, setFormApptData, updateRenderedItem, deleteAppointment) => {
   if (appointments.length > 0) {
-    return appointments.map((appointment, i) => <Appointment
+    return appointments.map((appointment, i) => {
+      return <Appointment
       key={i}
       id={appointment.id}
       address={appointment.address}
@@ -13,16 +14,16 @@ const mapAppointments = (appointments, userType, getMessages, setFormApptData, u
       length={appointment.length}
       notes={appointment.notes}
       patient={appointment.patient.name}
-      patientId={appointment.patient.id}
+      patient_id={appointment.patient.id}
       nurse={appointment.nurse.name}
-      nurseId={appointment.nurse.id}
+      nurse_id={appointment.nurse.id}
       reason={appointment.reason}
       start_time={appointment.start_time}
       userType={userType}
       setFormApptData={setFormApptData}
       updateRenderedItem={updateRenderedItem}
       deleteAppointment={deleteAppointment}
-    />)
+    />})
   }
 }
 
