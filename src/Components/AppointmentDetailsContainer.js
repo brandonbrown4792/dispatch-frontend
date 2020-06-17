@@ -1,5 +1,6 @@
 import React from 'react';
 import Appointment from './Appointment';
+import { Button } from '@material-ui/core'
 
 const mapAppointments = (appointments, userType, getMessages, setFormApptData, updateRenderedItem) => {
   if (appointments.length > 0) {
@@ -27,6 +28,10 @@ const mapAppointments = (appointments, userType, getMessages, setFormApptData, u
 const AppointmentDetailsContainer = props => {
   return (
     <div className='appointment-details-container'>
+      {(props.userType === 'nurse' || props.userType === 'dispatcher') && 
+      <Button onClick={() => props.updateRenderedItem('map')}>
+        Back to map
+      </Button>}
       {mapAppointments(props.appointments, props.userType, props.getMessages, props.setFormApptData, props.updateRenderedItem)}
       {mapAppointments(props.appointments, props.userType, props.getMessages)}
     </div>
