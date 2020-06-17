@@ -46,7 +46,7 @@ const getAppointmentData = (appointment) => {
         <Typography variant="h6" component="h6">
           Status: {appointment.completed ? 'Complete' : 'Incomplete'}
         </Typography><br />
-        {getMessageButtons(appointment.userType, appointment.nurseId, appointment.patientId, appointment.getMessages)}
+        {getMessageButtons(appointment.userType, appointment.nurse_id, appointment.patient_id, appointment.getMessages)}
         <br /><br />
         {getEditDelButtons(appointment, appointment.setFormApptData, appointment.updateRenderedItem, appointment.deleteAppointment)}
       </CardContent>
