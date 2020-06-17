@@ -136,8 +136,7 @@ class App extends React.Component {
         addAppointment={this.addAppointment}
         editAppointment={this.editAppointment}
         formApptData={this.state.formApptData}
-        setFormState={this.setFormState}
-        selectedAppointments={this.selectedAppointments} />
+        setFormState={this.setFormState} />
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer
         appointments={this.state.selectedAppointments}
@@ -157,7 +156,7 @@ class App extends React.Component {
 
   setSelectedAppointments = id => {
     let filteredAppointments = this.state.filteredUserData.appointments;
-    const selectedAppointments = this.state.userData.appointments.filter(appointment =>
+    const selectedAppointments = this.state.filteredUserData.appointments.filter(appointment =>
       (appointment.patient_id === id || appointment.nurse_id === id) && filteredAppointments.includes(appointment)
     );
     this.setState({
@@ -235,7 +234,35 @@ class App extends React.Component {
           ...this.state.userData,
           appointments: this.state.userData.appointments.map(appointment => {
             if (appointment.id === appt.id) {
-              return appt;
+              return {
+                ...appointment,
+                address: appt.address,
+                completed: appt.completed,
+                length: appt.length,
+                nurse_id: appt.nurse_id,
+                patient_id: appt.patient_id,
+                reason: appt.reason,
+                start_time: appt.start_time
+              };
+            } else {
+              return appointment
+            }
+          })
+        },
+        filteredUserData: {
+          ...this.state.filteredUserData,
+          appointments: this.state.filteredUserData.appointments.map(appointment => {
+            if (appointment.id === appt.id) {
+              return {
+                ...appointment,
+                address: appt.address,
+                completed: appt.completed,
+                length: appt.length,
+                nurse_id: appt.nurse_id,
+                patient_id: appt.patient_id,
+                reason: appt.reason,
+                start_time: appt.start_time
+              };
             } else {
               return appointment
             }
