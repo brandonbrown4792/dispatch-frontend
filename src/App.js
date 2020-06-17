@@ -21,6 +21,7 @@ class App extends React.Component {
       width: '83vw',
       zoom: 12
     },
+    isLoggedIn: false,
     userData: {},
     selectedAppointments: [],
     renderedItem: 'map',
@@ -65,11 +66,20 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getUserData();
+    if (localStorage.getItem('auth_token')) {
+      this.setState({ isLoggedIn: true })
+    }
   }
 
   handleLogin = token => {
     localStorage.setItem('auth_token', token);
+    this.setState({ isLoggedIn: true })
     this.getUserData();
+  }
+
+  handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    this.setState({ isLoggedIn: false })
   }
 
   getUserData = () => {
@@ -123,8 +133,8 @@ class App extends React.Component {
       return <AppointmentForm
         userData={this.state.userData}
         updateRenderedItem={this.updateRenderedItem}
-        addAppointment={this.addAppointment} 
-        editAppointment={this.editAppointment} 
+        addAppointment={this.addAppointment}
+        editAppointment={this.editAppointment}
         formApptData={this.state.formApptData}
         setFormState={this.setFormState}
         selectedAppointments={this.selectedAppointments} />
@@ -155,13 +165,13 @@ class App extends React.Component {
   }
 
   setFormApptData = appt => {
-    this.setState({ 
-      formApptData: appt 
+    this.setState({
+      formApptData: appt
     })
   }
 
   setFormState = (e) => {
-    this.setState({ formApptData: {...this.state.formApptData, [e.target.name]: e.target.value }})
+    this.setState({ formApptData: { ...this.state.formApptData, [e.target.name]: e.target.value } })
   }
 
   addAppointment = (appt) => {
@@ -346,7 +356,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <MenuAppBar updateRenderedItem={this.updateRenderedItem} />
+        <MenuAppBar isLoggedIn={this.state.isLoggedIn} updateRenderedItem={this.updateRenderedItem} handleLogout={this.handleLogout} />
         <Grid container >
           {/* <Grid item xs={12} className='header'> */}
           {/* </Grid> */}

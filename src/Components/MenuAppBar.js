@@ -15,8 +15,20 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     margin: 0
-  } 
+  }
 }));
+
+const renderLoginLogout = props => {
+  if (!props.isLoggedIn) {
+    return <Button color="inherit" onClick={() => window.location.href = '/login'}>Login</Button>
+  } else {
+    return <Button color="inherit" onClick={() => {
+      props.handleLogout();
+      window.location.href = '/'
+    }
+    }>Logout</Button>
+  }
+}
 
 export default function MenuAppBar(props) {
   const classes = useStyles();
@@ -32,7 +44,7 @@ export default function MenuAppBar(props) {
             Dispatch
           </Typography>
 
-          <Button color="inherit" onClick={() => window.location.href = '/login'}>Login</Button>
+          {renderLoginLogout(props)}
         </Toolbar>
       </AppBar>
     </div>
