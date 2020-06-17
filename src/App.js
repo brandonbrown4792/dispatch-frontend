@@ -126,14 +126,14 @@ class App extends React.Component {
         addAppointment={this.addAppointment} 
         editAppointment={this.editAppointment} 
         formApptData={this.state.formApptData}
-        setFormState={this.setFormState} />
+        setFormState={this.setFormState}
         selectedAppointments={this.selectedAppointments} />
     } else if (renderedItem === 'apptDetails') {
       return <AppointmentDetailsContainer
         appointments={this.state.selectedAppointments}
         updateRenderedItem={this.updateRenderedItem}
         userType={this.state.userData.user_type}
-        setFormApptData={this.setFormApptData} />
+        setFormApptData={this.setFormApptData}
         getMessages={this.getMessages} />
     }
   }
