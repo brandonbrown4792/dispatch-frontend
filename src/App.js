@@ -127,7 +127,7 @@ class App extends React.Component {
       />
 
     } else if (renderedItem === 'table') {
-      return <TableBox userData={this.state.filteredUserData} setSelectedAppointments={this.setSelectedAppointments} />
+      return <TableBox userData={this.state.filteredUserData} setSelectedAppointments={this.setSelectedAppointments} updateRenderedItem={this.updateRenderedItem} />
     } else if (renderedItem === 'login') {
       return <LoginForm />
     } else if (renderedItem === 'apptForm') {
@@ -201,7 +201,6 @@ class App extends React.Component {
     fetch(`${API_ROOT}/appointments`, fetchObj)
       .then(res => res.json())
       .then(appt => {
-        debugger;
         this.setState({
           userData: { ...this.state.userData, appointments: [...this.state.userData.appointments, appt] }
         })

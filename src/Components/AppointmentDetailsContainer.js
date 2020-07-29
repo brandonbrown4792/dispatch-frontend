@@ -4,7 +4,6 @@ import { Button } from '@material-ui/core'
 
 const mapAppointments = (appointments, userType, getMessages, setFormApptData, updateRenderedItem, deleteAppointment) => {
   if (appointments.length > 0) {
-    debugger;
     return appointments.map((appointment, i) => {
       return <Appointment
         key={i}

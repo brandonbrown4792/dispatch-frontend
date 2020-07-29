@@ -11,7 +11,12 @@ const createTableHeaders = () => {
     )
 }
 
-const nurseTable = (nurses, setSelectedAppointments) => {
+const handleClick = (setSelectedAppointments, updateRenderedItem, userId) => {
+    setSelectedAppointments(userId);
+    updateRenderedItem('apptDetails');
+}
+
+const nurseTable = (nurses, setSelectedAppointments, updateRenderedItem) => {
     if (nurses && nurses.length > 0) {
         return (
             <React.Fragment>
@@ -22,7 +27,11 @@ const nurseTable = (nurses, setSelectedAppointments) => {
                     </TableHead>
                     <TableBody>
                         {nurses.map((nurse) => (
-                            <TableRow key={nurse.id} onClick={() => setSelectedAppointments(nurse.id)}>
+                            <TableRow
+                                key={nurse.id}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => handleClick(setSelectedAppointments, updateRenderedItem, nurse.id)}
+                            >
                                 <TableCell >{nurse.name}</TableCell>
                                 <TableCell >{nurse.email}</TableCell>
                                 <TableCell >{nurse.address}</TableCell>
@@ -35,7 +44,7 @@ const nurseTable = (nurses, setSelectedAppointments) => {
     }
 }
 
-const patientTable = (patients, setSelectedAppointments) => {
+const patientTable = (patients, setSelectedAppointments, updateRenderedItem) => {
     if (patients && patients.length > 0) {
         return (
             <>
@@ -46,7 +55,11 @@ const patientTable = (patients, setSelectedAppointments) => {
                     </TableHead>
                     <TableBody>
                         {patients.map((patient) => (
-                            <TableRow key={patient.id} onClick={() => setSelectedAppointments(patient.id)}>
+                            <TableRow
+                                key={patient.id}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => handleClick(setSelectedAppointments, updateRenderedItem, patient.id)}
+                            >
                                 <TableCell >{patient.name}</TableCell>
                                 <TableCell >{patient.email}</TableCell>
                                 <TableCell >{patient.address}</TableCell>
@@ -62,9 +75,9 @@ const patientTable = (patients, setSelectedAppointments) => {
 const TableBox = props => {
     return (
         <TableContainer>
-            {nurseTable(props.userData.nurses, props.setSelectedAppointments)}
+            {nurseTable(props.userData.nurses, props.setSelectedAppointments, props.updateRenderedItem)}
             <br />
-            {patientTable(props.userData.patients, props.setSelectedAppointments)}
+            {patientTable(props.userData.patients, props.setSelectedAppointments, props.updateRenderedItem)}
         </TableContainer>
     )
 }
