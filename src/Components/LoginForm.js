@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { FormControl, TextField, Button } from '@material-ui/core'
+import { API_ROOT } from '../services/apiRoot';
 
 class LoginForm extends React.Component {
   state = {
@@ -30,7 +31,7 @@ class LoginForm extends React.Component {
       body: JSON.stringify(userObj)
     }
 
-    fetch('http://localhost:3000/api/v1/login', fetchObj)
+    fetch(`${API_ROOT}/login`, fetchObj)
       .then(res => res.json())
       .then(loginData => {
         if (loginData.token) {
