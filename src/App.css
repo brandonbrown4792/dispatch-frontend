@@ -141,3 +141,46 @@ thead th, tfoot th, tfoot td {
 .popup  {
   text-align: center;
 }
+
+.modal {
+  margin: auto;
+  background: white;
+  width: 50%;
+}
+
+.login-instructions-container {
+  position: absolute;
+  padding-left: 10px;
+  width: 500px;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.login-instructions-title {
+  font-size: 16pt;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.login-main-instructions {
+  margin: 5px 0px 20px 0px;
+}
+
+.login-note-type {
+  margin-top: 10px;
+  padding: 0px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.login-instruction {
+  font-size: 6pt;
+}
+
+.login-instructions-container :last-child {
+  padding-bottom: 10px;
+}
