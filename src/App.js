@@ -200,9 +200,12 @@ class App extends React.Component {
 
     fetch(`${API_ROOT}/appointments`, fetchObj)
       .then(res => res.json())
-      .then(appt => this.setState({
-        userData: { ...this.state.userData, appointments: [...this.state.userData.appointments, appt] }
-      }))
+      .then(appt => {
+        debugger;
+        this.setState({
+          userData: { ...this.state.userData, appointments: [...this.state.userData.appointments, appt] }
+        })
+      })
   }
 
   editAppointment = (appt) => {
