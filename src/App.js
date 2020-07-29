@@ -11,6 +11,7 @@ import AppointmentDetailsContainer from './Components/AppointmentDetailsContaine
 import TableBox from './Components/TableBox'
 import LoginForm from './Components/LoginForm'
 import AppointmentForm from './Components/AppointmentForm'
+import { API_ROOT } from './services/apiRoot'
 
 class App extends React.Component {
   state = {
@@ -97,7 +98,7 @@ class App extends React.Component {
       }
     }
 
-    fetch('http://localhost:3000/api/v1/get-info', fetchObj)
+    fetch(`${API_ROOT}/get-info`, fetchObj)
       .then(res => res.json())
       .then(userData => this.setState({ userData: userData, filteredUserData: userData }))
   }
@@ -197,7 +198,7 @@ class App extends React.Component {
       })
     }
 
-    fetch('http://localhost:3000/api/v1/appointments', fetchObj)
+    fetch(`${API_ROOT}/appointments`, fetchObj)
       .then(res => res.json())
       .then(appt => this.setState({
         userData: { ...this.state.userData, appointments: [...this.state.userData.appointments, appt] }
@@ -227,7 +228,7 @@ class App extends React.Component {
       })
     }
 
-    fetch(`http://localhost:3000/api/v1/appointments/${appt.id}`, fetchObj)
+    fetch(`${API_ROOT}/appointments/${appt.id}`, fetchObj)
       .then(res => res.json())
       .then(appt => this.setState({
         userData: {
@@ -286,7 +287,7 @@ class App extends React.Component {
       },
     }
 
-    fetch(`http://localhost:3000/api/v1/appointments/${id}`, fetchObj)
+    fetch(`${API_ROOT}/appointments/${id}`, fetchObj)
       .then(res => res.json())
       .then(appt => {
         let apptsCopy = [...this.state.userData.appointments]
@@ -365,7 +366,7 @@ class App extends React.Component {
       body: JSON.stringify(messageObj)
     }
 
-    fetch('http://localhost:3000/api/v1/get-messages', fetchObj)
+    fetch(`${API_ROOT}/get-messages`, fetchObj)
       .then(res => res.json())
       .then(messages => {
         this.writeMessages(messages)
@@ -401,7 +402,7 @@ class App extends React.Component {
       })
     }
 
-    fetch('http://localhost:3000/api/v1/messages', fetchObj)
+    fetch(`${API_ROOT}/messages`, fetchObj)
       .then(res => res.json())
       .then(message => console.log(message.content))
       .catch(error => alert(error.msg))
