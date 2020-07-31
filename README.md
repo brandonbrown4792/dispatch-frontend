@@ -13,9 +13,9 @@ The backend install steps require the following on your system
 * React
 
 
-## Install Intructions
+## Install Instructions
 1. Clone this repository to you local machine.
-2. Once cloned, navigate to the base folder of this repositry.
+2. Once cloned, navigate to the base folder of this repository.
 3. Run yarn in the terminal to install required node modules.
 4. Run yarn start to start the frontend server.
 
