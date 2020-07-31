@@ -32,7 +32,7 @@ Built with:
 
 ## How to Use
 The backend install steps require the following on your system
-* [Node.js](https://https://nodejs.org/)
+* [Node.js](https://nodejs.org/)
 * [Yarn](https://classic.yarnpkg.com/en/)
 * [React](https://reactjs.org)
 
