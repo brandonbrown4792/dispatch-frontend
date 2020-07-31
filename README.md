@@ -2,13 +2,13 @@
 Dispatch is a nurse dispatcher application that allows for digital scheduling of appointments for patients. An integrated map provides the dispatcher easier management of appointments. The appointments are also available in a list view. Nurses may log in to view their patient appointments in a map view. Patients may log in to view their appointments.
 
 ## Motivation
-A home healthcare nurse we know works as a dispatacher to assign appointments to nurses across several cities in large metro area. Her required her to take a list of perhaps 50 appointments with all kinds of details and assign the home visits to nurses who live all over the region. She had to do this whole process manually, comparing addresses of nurses with patients, etc. We set out to optimize and streamline that job with this app and it's graphical map-based interface.
+A home healthcare nurse we know works as a dispatacher to assign appointments to nurses across several cities in large metro area. Her job requires her to take a list of perhaps 50 appointments with all kinds of details and assign them as home visits to nurses who live all over the region. She has to do this whole process manually using Google maps, comparing addresses of nurses with patients, etc. We set out to optimize and streamline that workflow with this app and it's interactive map-based user interface.
 
 As we developed the project we began to realize there are many applications for this type of tool in the service industry and got excited about building the app.
 
 ## Build status
-Heroku App  
-This app has been deployed to Heroku [here](https://dispatch-app-front.herokuapp.com/). Please see the login instructions on the web application to view login information.
+**Heroku App**  
+This app has been deployed to [Heroku here](https://dispatch-app-front.herokuapp.com/). Please see the login instructions on the web application to view login information.
 
 ## Screenshots
 ![logo](/public/dispatch.jpg?raw=true "screenshot")
